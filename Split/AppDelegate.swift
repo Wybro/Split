@@ -7,15 +7,25 @@
 //
 
 import UIKit
+import Fabric
+import Crashlytics
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
 
-
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
-        // Override point for customization after application launch.
+        
+        window = UIWindow.init(frame: UIScreen.main.bounds)
+        let tipVC = TipViewController()
+        let navContoller = UINavigationController(rootViewController: tipVC)
+        navContoller.navigationBar.isTranslucent = false
+        
+        window?.rootViewController = navContoller
+        window?.makeKeyAndVisible()
+        
+        Fabric.with([Crashlytics.self])
         return true
     }
 

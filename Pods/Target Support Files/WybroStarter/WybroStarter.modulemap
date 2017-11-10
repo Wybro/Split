@@ -1,0 +1,6 @@
+framework module WybroStarter {
+  umbrella header "WybroStarter-umbrella.h"
+
+  export *
+  module * { export * }
+}
