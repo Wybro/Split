@@ -24,7 +24,7 @@ class ResultsBarView: UIView {
         let label = UILabel()
         label.textAlignment = .center
         label.text = "per person"
-        label.isHidden = true
+        label.alpha = 0
         return label
     }()
 
@@ -97,6 +97,8 @@ class ResultsBarView: UIView {
     }
     
     func hideLabel(_ value: Bool) {
-        peopleLabel.isHidden = value
+        UIView.animate(withDuration: 0.2) {
+            self.peopleLabel.alpha = value ? 0 : 1
+        }
     }
 }
