@@ -69,30 +69,18 @@ class ResultsBarView: UIView {
     
     @objc func animateView() {
         animating = true
-        if viewType == .full {
-            viewType = .partial
+        viewType = viewType == .full ? .partial : .full
+        
+        UIView.animate(withDuration: 0.25, animations: {
+            let xShift: CGFloat = self.viewType == .full ? -20 : 20
             
-            UIView.animate(withDuration: 0.25, animations: {
-                self.tip.transform = CGAffineTransform(translationX: 20, y: 0)
-                self.tip.alpha = 0
-                
-                self.bill.transform = CGAffineTransform(translationX: -20, y: 0)
-                self.bill.alpha = 0
-            }, completion: { (done) in
-                self.animating = false
-            })
-        } else {
-            viewType = .full
+            self.tip.transform = CGAffineTransform(translationX: xShift, y: 0)
+            self.tip.alpha = self.viewType == .full ? 1 : 0
             
-            UIView.animate(withDuration: 0.25, animations: {
-                self.tip.transform = CGAffineTransform(translationX: -20, y: 0)
-                self.tip.alpha = 1
-                
-                self.bill.transform = CGAffineTransform(translationX: 20, y: 0)
-                self.bill.alpha = 1
-            }, completion: { (done) in
-                self.animating = false
-            })
+            self.bill.transform = CGAffineTransform(translationX: -xShift, y: 0)
+            self.bill.alpha = self.viewType == .full ? 1 : 0
+        }) { (done) in
+            self.animating = false
         }
     }
     
