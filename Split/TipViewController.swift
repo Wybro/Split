@@ -28,7 +28,7 @@ class TipViewController: UIViewController {
     
     lazy var peopleSlider: PeopleSliderView = {
         let slider = PeopleSliderView()
-        slider.sliderColor = Constants.green
+        slider.sliderColor = UIColor.white
         return slider
     }()
     
@@ -74,7 +74,7 @@ class TipViewController: UIViewController {
     }
     
     func setup() {
-        view.backgroundColor = .white
+        view.backgroundColor = Constants.green
         
         let reviewButton = UIBarButtonItem(image: #imageLiteral(resourceName: "heart"), style: .plain, target: self, action: #selector(TipViewController.requestReview))
         reviewButton.tintColor = Constants.green

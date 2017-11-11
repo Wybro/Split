@@ -30,8 +30,6 @@ class KeypadView: UIView {
     }
     
     func setup() {
-        backgroundColor = .red
-        
         firstRow.delegate = self
         secondRow.delegate = self
         thirdRow.delegate = self
