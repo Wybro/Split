@@ -17,7 +17,7 @@ class CostView: UIView {
     lazy var titleLabel: UILabel = {
         let label = UILabel()
         label.text = "Title"
-        label.font = UIFont.systemFont(ofSize: 16, weight: .light)
+        label.font = UIFont(name: "Barlow-Light", size: 16)
         label.textAlignment = .center
         label.textColor = .black
         return label
@@ -26,7 +26,7 @@ class CostView: UIView {
     lazy var amountLabel: UILabel = {
         let label = UILabel()
         label.text = "$0.00"
-        label.font = UIFont.systemFont(ofSize: 20, weight: .medium)
+        label.font = UIFont(name: "Barlow-Medium", size: 20)
         label.textAlignment = .center
         label.textColor = .black
         return label
@@ -42,14 +42,14 @@ class CostView: UIView {
     }
     
     func setup(type: CostType) {
-        let label = type == .tip ? "Tip" : (type == .total ? "Total Cost" : "Bill")
+        let label = type == .tip ? "Tip" : (type == .total ? "Total" : "Bill")
         titleLabel.text = label
         
         let titleSize: CGFloat = type == .total ? 20 : 16
-        titleLabel.font = UIFont.systemFont(ofSize: titleSize)
+        titleLabel.font = UIFont(name: "Barlow", size: titleSize)
         
         let amountSize: CGFloat = type == .total ? 24 : 20
-        amountLabel.font = UIFont.systemFont(ofSize: amountSize)
+        amountLabel.font = UIFont(name: "Barlow", size: amountSize)
         
         addSubview(titleLabel.usingConstraints())
         addSubview(amountLabel.usingConstraints())
