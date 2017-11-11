@@ -22,6 +22,7 @@ class ResultsBarView: UIView {
     lazy var bill: CostView = .init(type: .bill)
     lazy var peopleLabel: UILabel = {
         let label = UILabel()
+        label.font = UIFont.systemFont(ofSize: 14)
         label.textAlignment = .center
         label.text = "per person"
         label.alpha = 0
