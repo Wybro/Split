@@ -16,24 +16,6 @@ class TipViewController: UIViewController {
         static let green = UIColor(hex: "2CEAA3")
     }
     
-    lazy var moneyTextField: UITextField = {
-        let textField = UITextField()
-        textField.placeholder = "bill amount"
-        textField.keyboardType = .decimalPad
-        textField.font = UIFont.systemFont(ofSize: 20)
-        textField.textAlignment = .center
-        textField.autocorrectionType = .no
-        textField.borderStyle = .roundedRect
-        textField.returnKeyType = .done
-        textField.backgroundColor = .white
-        textField.keyboardAppearance = .dark
-        
-        textField.addTarget(self,
-                            action: #selector(TipViewController.textFieldDidChange(sender:)),
-                            for: .editingChanged)
-        return textField
-    }()
-    
     lazy var tipBar: UISegmentedControl = {
         let control = UISegmentedControl(items: ["15%", "20%", "25%"])
         control.selectedSegmentIndex = 1
@@ -48,6 +30,16 @@ class TipViewController: UIViewController {
         let slider = PeopleSliderView()
         slider.sliderColor = Constants.green
         return slider
+    }()
+    
+    lazy var keypad: KeypadView = .init()
+    
+    lazy var costLabel: UILabel = {
+        let label = UILabel()
+        label.text = "$0"
+        label.textAlignment = .center
+        label.font = UIFont.systemFont(ofSize: 20)
+        return label
     }()
     
     var backingNumPeople: Int = 1
@@ -89,26 +81,31 @@ class TipViewController: UIViewController {
         navigationItem.leftBarButtonItem = reviewButton
         
         peopleSlider.delegate = self
+        keypad.delegate = self
         
-        view.addSubview(moneyTextField.usingConstraints())
         view.addSubview(resultsBar.usingConstraints())
         view.addSubview(tipBar.usingConstraints())
         view.addSubview(peopleSlider.usingConstraints())
+        view.addSubview(keypad.usingConstraints())
+        view.addSubview(costLabel.usingConstraints())
         
         layoutConstraints().activate()
     }
     
     func layoutConstraints() -> [NSLayoutConstraint] {
         return NSLayoutConstraint.constraints(
-            formats: ["H:|-[textField]-|",
-                      "V:|-8-[textField]-[results]-[tipBar]-[slider]",
+            formats: ["V:|-8-[results]-[tipBar]-[slider]",
+                      "V:[cost]-[keypad(350)]-16-|",
+                      "H:|[keypad]|",
                       "H:|[results]|",
                       "H:|-60-[slider]-60-|",
-                      "H:|[tipBar]|"],
-            views: ["textField":  moneyTextField,
-                    "results": resultsBar,
+                      "H:|[tipBar]|",
+                      "H:|[cost]|"],
+            views: ["results": resultsBar,
                     "tipBar": tipBar,
-                    "slider": peopleSlider]
+                    "slider": peopleSlider,
+                    "keypad": keypad,
+                    "cost": costLabel]
         )
     }
 }
@@ -119,21 +116,13 @@ extension TipViewController {
         super.viewDidLoad()
         setup()
     }
-    
-    override func viewDidAppear(_ animated: Bool) {
-        moneyTextField.becomeFirstResponder()
-    }
 }
 
 // MARK: - Delegates
-extension TipViewController: PeopleSliderDelegate, UITextFieldDelegate {
+extension TipViewController: PeopleSliderDelegate, KeypadDelegate {
     func sliderValueDidChange(value: Int) {
         numPeople = value
         value > 1 ? resultsBar.hideLabel(false) : resultsBar.hideLabel(true)
-    }
-    
-    @objc func textFieldDidChange(sender: UITextField) {
-        costValue = Double(sender.text ?? "0.00") ?? 0.00
     }
     
     @objc func selectedSegmentDidChange(sender: UISegmentedControl) {
@@ -141,6 +130,24 @@ extension TipViewController: PeopleSliderDelegate, UITextFieldDelegate {
         let cleanStr = tipStr.replacingOccurrences(of: "%", with: "")
         let tipVal = (Double(cleanStr) ?? 20.0) / 100.0
         tipValue = tipVal
+    }
+    
+    func keypadPressed(value: String) {
+        let current = costLabel.text ?? ""
+        let delete = value == "<"
+        
+        if delete {
+            if current != "$0" {
+                let newStr = String(current.dropLast())
+                let val = newStr == "$" ? "$0" : newStr
+                costLabel.text = val
+                costValue = Double(val.replacingOccurrences(of: "$", with: "")) ?? 0.00
+            }
+        } else {
+            let val = current == "$0" ? "$\(value)" : current + value
+            costLabel.text = val
+            costValue = Double(val.replacingOccurrences(of: "$", with: "")) ?? 0.00
+        }
     }
 }
 
