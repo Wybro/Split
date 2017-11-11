@@ -38,10 +38,35 @@ class PeopleSliderView: UIView {
         let label = UILabel()
         label.font = UIFont.systemFont(ofSize: 16, weight: .light)
         label.textColor = .black
-        label.text = "People"
+        label.text = "Person"
         label.textAlignment = .center
         return label
     }()
+    
+    private var backingValue: Int = 1
+    private var backingColor: UIColor = .blue
+    
+    var value: Int {
+        get {
+           return backingValue
+        } set {
+            backingValue = newValue
+            countLabel.text = "\(newValue)"
+            
+            let peopleStr = newValue == 1 ? "Person" : "People"
+            extraLabel.text = peopleStr
+        }
+    }
+    
+    var sliderColor: UIColor {
+        get {
+            return backingColor
+        } set {
+            backingColor = newValue
+            slider.tintColor = newValue
+            slider.thumbTintColor = newValue
+        }
+    }
     
     init() {
         super.init(frame: .zero)
@@ -69,7 +94,7 @@ class PeopleSliderView: UIView {
     }
     
     @objc func sliderValueDidChange(sender: UISlider) {
-        countLabel.text = "\(Int(sender.value))"
+        value = Int(sender.value)
         delegate?.sliderValueDidChange(value: Int(sender.value))
     }
 

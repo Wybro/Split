@@ -62,4 +62,12 @@ class CostView: UIView {
                     "amount": amountLabel]
         ).activate()
     }
+    
+    func update(cost: Double) {
+        let formatter = NumberFormatter()
+        formatter.locale = Locale.current
+        formatter.numberStyle = .currency
+        
+        amountLabel.text = "\(formatter.string(from: NSNumber(value: cost)) ?? "$0.00")"
+    }
 }

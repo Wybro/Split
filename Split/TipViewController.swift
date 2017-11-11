@@ -8,8 +8,13 @@
 
 import UIKit
 import WybroStarter
+import StoreKit
 
 class TipViewController: UIViewController {
+    
+    enum Constants {
+        static let green = UIColor(hex: "2CEAA3")
+    }
     
     lazy var moneyTextField: UITextField = {
         let textField = UITextField()
@@ -23,29 +28,71 @@ class TipViewController: UIViewController {
         textField.backgroundColor = .white
         textField.keyboardAppearance = .dark
         
-        let tipBar = TipBarView(height: 50)
-        textField.inputAccessoryView = tipBar
-        
-//        let customView = UIView(frame: CGRect(x: 0, y: 0, width: 50, height: 40))
-//        customView.backgroundColor = .red
-//        textField.inputAccessoryView = customView
+        textField.addTarget(self,
+                            action: #selector(TipViewController.textFieldDidChange(sender:)),
+                            for: .editingChanged)
         return textField
+    }()
+    
+    lazy var tipBar: UISegmentedControl = {
+        let control = UISegmentedControl(items: ["15%", "20%", "25%"])
+        control.selectedSegmentIndex = 1
+        control.tintColor = Constants.green
+        control.addTarget(self, action: #selector(TipViewController.selectedSegmentDidChange(sender:)), for: .valueChanged)
+        return control
     }()
     
     lazy var resultsBar: ResultsBarView = .init()
     
-//    lazy var tipBar: TipBarView = .init()
+    lazy var peopleSlider: PeopleSliderView = {
+        let slider = PeopleSliderView()
+        slider.sliderColor = Constants.green
+        return slider
+    }()
     
-    lazy var peopleSlider: PeopleSliderView = .init()
+    var backingNumPeople: Int = 1
+    var backingCostValue: Double = 0.00
+    var backingTipValue: Double = 0.20
+    
+    var numPeople: Int {
+        get {
+            return backingNumPeople
+        } set {
+            backingNumPeople = newValue
+            computeBill()
+        }
+    }
+    
+    var costValue: Double {
+        get {
+            return backingCostValue
+        } set {
+            backingCostValue = newValue
+            computeBill()
+        }
+    }
+    
+    var tipValue: Double {
+        get {
+            return backingTipValue
+        } set {
+            backingTipValue = newValue
+            computeBill()
+        }
+    }
     
     func setup() {
         view.backgroundColor = .white
+        
+        let reviewButton = UIBarButtonItem(image: #imageLiteral(resourceName: "heart"), style: .plain, target: self, action: #selector(TipViewController.requestReview))
+        reviewButton.tintColor = Constants.green
+        navigationItem.leftBarButtonItem = reviewButton
         
         peopleSlider.delegate = self
         
         view.addSubview(moneyTextField.usingConstraints())
         view.addSubview(resultsBar.usingConstraints())
-//        view.addSubview(tipBar.usingConstraints())
+        view.addSubview(tipBar.usingConstraints())
         view.addSubview(peopleSlider.usingConstraints())
         
         layoutConstraints().activate()
@@ -54,11 +101,13 @@ class TipViewController: UIViewController {
     func layoutConstraints() -> [NSLayoutConstraint] {
         return NSLayoutConstraint.constraints(
             formats: ["H:|-[textField]-|",
-                      "V:|-8-[textField]-[results]-[slider]",
+                      "V:|-8-[textField]-[results]-[tipBar]-[slider]",
                       "H:|[results]|",
-                      "H:|-60-[slider]-60-|"],
+                      "H:|-60-[slider]-60-|",
+                      "H:|[tipBar]|"],
             views: ["textField":  moneyTextField,
                     "results": resultsBar,
+                    "tipBar": tipBar,
                     "slider": peopleSlider]
         )
     }
@@ -77,9 +126,34 @@ extension TipViewController {
 }
 
 // MARK: - Delegates
-extension TipViewController: PeopleSliderDelegate {
+extension TipViewController: PeopleSliderDelegate, UITextFieldDelegate {
     func sliderValueDidChange(value: Int) {
-        print("value: \(value)")
+        numPeople = value
+        value > 1 ? resultsBar.hideLabel(false) : resultsBar.hideLabel(true)
+    }
+    
+    @objc func textFieldDidChange(sender: UITextField) {
+        costValue = Double(sender.text ?? "0.00") ?? 0.00
+    }
+    
+    @objc func selectedSegmentDidChange(sender: UISegmentedControl) {
+        let tipStr = (sender.titleForSegment(at: sender.selectedSegmentIndex) ?? "20%")
+        let cleanStr = tipStr.replacingOccurrences(of: "%", with: "")
+        let tipVal = (Double(cleanStr) ?? 20.0) / 100.0
+        tipValue = tipVal
     }
 }
 
+// MARK: - Core logic
+extension TipViewController {
+    func computeBill() {
+        resultsBar.update(cost: costValue, tipNum: tipValue, numPeople: numPeople)
+    }
+}
+
+// MARK: - Navigation
+extension TipViewController {
+    @objc func requestReview() {
+        SKStoreReviewController.requestReview()
+    }
+}
