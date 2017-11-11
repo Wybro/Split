@@ -20,11 +20,10 @@ class TipViewController: UIViewController {
         let textField = UITextField()
         textField.placeholder = "bill amount"
         textField.keyboardType = .decimalPad
-        textField.font = UIFont.systemFont(ofSize: 20)
+        textField.font = UIFont(name: "Barlow", size: 20)
         textField.textAlignment = .center
         textField.autocorrectionType = .no
         textField.borderStyle = .roundedRect
-        textField.returnKeyType = .done
         textField.backgroundColor = .white
         textField.keyboardAppearance = .dark
         
