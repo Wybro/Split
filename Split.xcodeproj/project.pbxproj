@@ -18,6 +18,8 @@
 		2D3189671FB5157500801D73 /* TipButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D3189661FB5157500801D73 /* TipButton.swift */; };
 		2D3189691FB53F9800801D73 /* TipBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D3189681FB53F9800801D73 /* TipBarView.swift */; };
 		2D31896F1FB54C6800801D73 /* PeopleSliderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D31896E1FB54C6800801D73 /* PeopleSliderView.swift */; };
+		2D39251B1FB6B07400E01D2D /* KeypadView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D39251A1FB6B07400E01D2D /* KeypadView.swift */; };
+		2D39251D1FB6B10600E01D2D /* RowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D39251C1FB6B10600E01D2D /* RowView.swift */; };
 		6D9BC36BC4E013011E2706F5 /* Pods_SplitTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 799959DB47AFF458EB003A1D /* Pods_SplitTests.framework */; };
 		AF076BDD07B3D908429146C0 /* Pods_Split.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9FEA48DF105CD86417AC0717 /* Pods_Split.framework */; };
 		2517F3FB1FB6A4AB00A736DE /* Barlow-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 2517F3E81FB6A4AB00A736DE /* Barlow-Light.ttf */; };
@@ -58,6 +60,8 @@
 		2D3189661FB5157500801D73 /* TipButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TipButton.swift; sourceTree = "<group>"; };
 		2D3189681FB53F9800801D73 /* TipBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TipBarView.swift; sourceTree = "<group>"; };
 		2D31896E1FB54C6800801D73 /* PeopleSliderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PeopleSliderView.swift; sourceTree = "<group>"; };
+		2D39251A1FB6B07400E01D2D /* KeypadView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeypadView.swift; sourceTree = "<group>"; };
+		2D39251C1FB6B10600E01D2D /* RowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RowView.swift; sourceTree = "<group>"; };
 		4D7A297927236F1C5C7A173A /* Pods-SplitTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SplitTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-SplitTests/Pods-SplitTests.debug.xcconfig"; sourceTree = "<group>"; };
 		71346FA71B7AE0306E3456EC /* Pods-SplitTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SplitTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-SplitTests/Pods-SplitTests.release.xcconfig"; sourceTree = "<group>"; };
 		799959DB47AFF458EB003A1D /* Pods_SplitTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_SplitTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -178,6 +182,7 @@
 		2D31896C1FB54C4200801D73 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				2D3925191FB6B06000E01D2D /* Keypad */,
 				2D31896D1FB54C5000801D73 /* PeopleSlider */,
 				2D31896B1FB54C3B00801D73 /* Cost */,
 				2D31896A1FB54C1D00801D73 /* Tip */,
@@ -191,6 +196,15 @@
 				2D31896E1FB54C6800801D73 /* PeopleSliderView.swift */,
 			);
 			path = PeopleSlider;
+			sourceTree = "<group>";
+		};
+		2D3925191FB6B06000E01D2D /* Keypad */ = {
+			isa = PBXGroup;
+			children = (
+				2D39251A1FB6B07400E01D2D /* KeypadView.swift */,
+				2D39251C1FB6B10600E01D2D /* RowView.swift */,
+			);
+			path = Keypad;
 			sourceTree = "<group>";
 		};
 		EBCB3B387C42A6E2E476D2A2 /* Frameworks */ = {
@@ -452,6 +466,8 @@
 				2D3189611FB4F19D00801D73 /* TipViewController.swift in Sources */,
 				2D3189651FB508C700801D73 /* CostView.swift in Sources */,
 				2D3189671FB5157500801D73 /* TipButton.swift in Sources */,
+				2D39251D1FB6B10600E01D2D /* RowView.swift in Sources */,
+				2D39251B1FB6B07400E01D2D /* KeypadView.swift in Sources */,
 				2D31896F1FB54C6800801D73 /* PeopleSliderView.swift in Sources */,
 				2D3189401FB4EE4800801D73 /* AppDelegate.swift in Sources */,
 				2D3189631FB5080900801D73 /* ResultsBarView.swift in Sources */,
