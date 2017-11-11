@@ -18,12 +18,12 @@ class TipViewController: UIViewController {
     
     lazy var moneyTextField: UITextField = {
         let textField = UITextField()
-        textField.placeholder = "bill amount"
+        textField.placeholder = "Cost"
         textField.keyboardType = .decimalPad
         textField.font = UIFont(name: "Barlow", size: 20)
         textField.textAlignment = .center
         textField.autocorrectionType = .no
-        textField.borderStyle = .roundedRect
+//        textField.borderStyle = .roundedRect
         textField.backgroundColor = .white
         textField.keyboardAppearance = .dark
         
@@ -38,6 +38,8 @@ class TipViewController: UIViewController {
         control.selectedSegmentIndex = 1
         control.tintColor = Constants.green
         control.addTarget(self, action: #selector(TipViewController.selectedSegmentDidChange(sender:)), for: .valueChanged)
+        let attr = NSDictionary(object: UIFont(name: "Barlow", size: 16.0)!, forKey: NSAttributedStringKey.font as NSCopying)
+        control.setTitleTextAttributes(attr as [NSObject : AnyObject], for: .normal)
         return control
     }()
     
