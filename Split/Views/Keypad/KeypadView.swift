@@ -9,7 +9,21 @@
 import UIKit
 
 protocol KeypadDelegate: class {
-    func keypadPressed(value: String)
+    func keypadPressed(tap: Tap)
+}
+
+struct Tap {
+    enum Action {
+        case append, decimal, delete
+    }
+    
+    let action: Action
+    let data: String
+    
+    init(action: Action, data: String = "") {
+        self.action = action
+        self.data = data
+    }
 }
 
 class KeypadView: UIView {
@@ -50,7 +64,8 @@ class KeypadView: UIView {
 }
 
 extension KeypadView: RowViewDelegate {
-    func rowButtonPressed(sender: String) {
-        delegate?.keypadPressed(value: sender)
+    func rowButtonPressed(value: String) {
+        let tap = value == "<" ? Tap(action: .delete) : value == "." ? Tap(action: .decimal) : Tap(action: .append, data: value)
+        delegate?.keypadPressed(tap: tap)
     }
 }

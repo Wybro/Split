@@ -122,6 +122,29 @@ extension TipViewController {
 
 // MARK: - Delegates
 extension TipViewController: PeopleSliderDelegate, KeypadDelegate {
+    func keypadPressed(tap: Tap) {
+        let current = costLabel.text ?? ""
+        
+        if tap.action == .delete {
+            if current != "$0" {
+                let newStr = String(current.dropLast())
+                let val = newStr == "$" ? "$0" : newStr
+                costLabel.text = val
+                costValue = Double(val.replacingOccurrences(of: "$", with: "")) ?? 0.00
+            }
+        } else if tap.action == .append {
+            let val = current == "$0" ? "$\(tap.data)" : current + tap.data
+            costLabel.text = val
+            costValue = Double(val.replacingOccurrences(of: "$", with: "")) ?? 0.00
+        } else if tap.action == .decimal {
+            if !current.contains(".") {
+                let val = current == "$0" ? "$0." : current + "."
+                costLabel.text = val
+                costValue = Double(val.replacingOccurrences(of: "$", with: "")) ?? 0.00
+            }
+        }
+    }
+    
     func sliderValueDidChange(value: Int) {
         numPeople = value
         value > 1 ? resultsBar.hideLabel(false) : resultsBar.hideLabel(true)
@@ -132,24 +155,6 @@ extension TipViewController: PeopleSliderDelegate, KeypadDelegate {
         let cleanStr = tipStr.replacingOccurrences(of: "%", with: "")
         let tipVal = (Double(cleanStr) ?? 20.0) / 100.0
         tipValue = tipVal
-    }
-
-    func keypadPressed(value: String) {
-        let current = costLabel.text ?? ""
-        let delete = value == "<"
-
-        if delete {
-            if current != "$0" {
-                let newStr = String(current.dropLast())
-                let val = newStr == "$" ? "$0" : newStr
-                costLabel.text = val
-                costValue = Double(val.replacingOccurrences(of: "$", with: "")) ?? 0.00
-            }
-        } else {
-            let val = current == "$0" ? "$\(value)" : current + value
-            costLabel.text = val
-            costValue = Double(val.replacingOccurrences(of: "$", with: "")) ?? 0.00
-        }
     }
 }
 

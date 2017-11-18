@@ -9,7 +9,7 @@
 import UIKit
 
 protocol RowViewDelegate: class {
-    func rowButtonPressed(sender: String)
+    func rowButtonPressed(value: String)
 }
 
 class RowView: UIView {
@@ -67,6 +67,6 @@ class RowView: UIView {
     }
     
     @objc func pressedButton(sender: UIButton) {
-        delegate?.rowButtonPressed(sender: sender.currentTitle ?? "")
+        delegate?.rowButtonPressed(value: sender.currentTitle ?? "")
     }
 }
