@@ -33,16 +33,8 @@ class TipViewController: UIViewController {
         slider.sliderColor = UIColor.white
         return slider
     }()
-
-    lazy var keypad: KeypadView = .init()
-
-    lazy var costLabel: UILabel = {
-        let label = UILabel()
-        label.text = "$0"
-        label.textAlignment = .center
-        label.font = UIFont.systemFont(ofSize: 20)
-        return label
-    }()
+    
+    lazy var entry: EntryView = .init()
 
     var backingNumPeople: Int = 1
     var backingCostValue: Double = 0.00
@@ -83,13 +75,12 @@ class TipViewController: UIViewController {
         navigationItem.leftBarButtonItem = reviewButton
 
         peopleSlider.delegate = self
-        keypad.delegate = self
+        entry.delegate = self
 
         view.addSubview(resultsBar.usingConstraints())
         view.addSubview(tipBar.usingConstraints())
         view.addSubview(peopleSlider.usingConstraints())
-        view.addSubview(keypad.usingConstraints())
-        view.addSubview(costLabel.usingConstraints())
+        view.addSubview(entry.usingConstraints())
 
         layoutConstraints().activate()
     }
@@ -97,17 +88,15 @@ class TipViewController: UIViewController {
     func layoutConstraints() -> [NSLayoutConstraint] {
         return NSLayoutConstraint.constraints(
             formats: ["V:|-8-[results]-[tipBar]-[slider]",
-                      "V:[cost]-[keypad(350)]-16-|",
-                      "H:|[keypad]|",
+                      "V:[entry(350)]-20-|",
+                      "H:|[entry]|",
                       "H:|[results]|",
                       "H:|-60-[slider]-60-|",
-                      "H:|[tipBar]|",
-                      "H:|[cost]|"],
+                      "H:|[tipBar]|"],
             views: ["results": resultsBar,
                     "tipBar": tipBar,
                     "slider": peopleSlider,
-                    "keypad": keypad,
-                    "cost": costLabel]
+                    "entry": entry]
         )
     }
 }
@@ -121,28 +110,9 @@ extension TipViewController {
 }
 
 // MARK: - Delegates
-extension TipViewController: PeopleSliderDelegate, KeypadDelegate {
-    func keypadPressed(tap: Tap) {
-        let current = costLabel.text ?? ""
-        
-        if tap.action == .delete {
-            if current != "$0" {
-                let newStr = String(current.dropLast())
-                let val = newStr == "$" ? "$0" : newStr
-                costLabel.text = val
-                costValue = Double(val.replacingOccurrences(of: "$", with: "")) ?? 0.00
-            }
-        } else if tap.action == .append {
-            let val = current == "$0" ? "$\(tap.data)" : current + tap.data
-            costLabel.text = val
-            costValue = Double(val.replacingOccurrences(of: "$", with: "")) ?? 0.00
-        } else if tap.action == .decimal {
-            if !current.contains(".") {
-                let val = current == "$0" ? "$0." : current + "."
-                costLabel.text = val
-                costValue = Double(val.replacingOccurrences(of: "$", with: "")) ?? 0.00
-            }
-        }
+extension TipViewController: PeopleSliderDelegate, EntryViewDelegate {
+    func costDidChange(value: Double) {
+        costValue = value
     }
     
     func sliderValueDidChange(value: Int) {
