@@ -14,6 +14,10 @@ protocol EntryViewDelegate: class {
 
 class EntryView: UIView {
     
+    enum Metrics {
+        static let keypadHeight = UIScreen.main.bounds.height * 0.33
+    }
+    
     weak var delegate: EntryViewDelegate?
     
     lazy var keypad: KeypadView = .init()
@@ -39,7 +43,8 @@ class EntryView: UIView {
         
         NSLayoutConstraint.constraints(
             formats: ["H:|[keypad]|",
-                      "V:|[entry]-[keypad(>=300)]|"],
+                      "V:|[entry]-[keypad(kpHeight)]|"],
+            metrics: ["kpHeight": Metrics.keypadHeight],
             views: ["keypad": keypad,
                     "entry": header]
         ).activate()

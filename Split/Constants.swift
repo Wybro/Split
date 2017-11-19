@@ -14,3 +14,7 @@ enum Constants {
     static let gray = UIColor(hex: "586566")
     static let white = UIColor(hex: "FDFFE5")
 }
+
+var smallScreen: Bool {
+    return UIScreen.main.bounds.height <= 667
+}

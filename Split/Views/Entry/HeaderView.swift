@@ -10,6 +10,20 @@ import UIKit
 
 class HeaderView: UIView {
     
+    enum Metrics {
+        static var pTextSize: CGFloat {
+            return smallScreen ? 30 : 35
+        }
+        
+        static var dTextSize: CGFloat {
+            return smallScreen ? 18 : 23
+        }
+        
+        static var cTextSize: CGFloat {
+            return smallScreen ? 16 : 20
+        }
+    }
+    
     private var backingPrimaryStr = "0"
     private var backingDecimalStr = ""
     
@@ -89,7 +103,7 @@ class HeaderView: UIView {
         let label = UILabel()
         label.text = "$"
         label.textAlignment = .right
-        label.font = UIFont(name: "Barlow-Bold", size: 20)
+        label.font = UIFont(name: "Barlow-Bold", size: Metrics.cTextSize)
         label.textColor = Constants.white
         return label
     }()
@@ -98,7 +112,7 @@ class HeaderView: UIView {
         let label = UILabel()
         label.text = "0"
         label.textAlignment = .right
-        label.font = UIFont(name: "Barlow-Bold", size: 35)
+        label.font = UIFont(name: "Barlow-Bold", size: Metrics.pTextSize)
         label.textColor = Constants.white
         return label
     }()
@@ -107,7 +121,7 @@ class HeaderView: UIView {
         let label = UILabel()
         label.text = "00"
         label.textAlignment = .left
-        label.font = UIFont(name: "Barlow-Bold", size: 25)
+        label.font = UIFont(name: "Barlow-Bold", size: Metrics.dTextSize)
         label.textColor = Constants.white
         label.alpha = 0.6
         return label
@@ -130,8 +144,8 @@ class HeaderView: UIView {
         NSLayoutConstraint.constraints(
             formats: ["H:|[cash]-2-[primary]-2-[decimal]|",
                       "V:|[primary]|",
-                      "V:|-2-[decimal]",
-                      "V:|-4-[cash]"],
+                      "V:|[decimal]|",
+                      "V:|[cash]|"],
             views: ["primary": primary,
                     "decimal": decimal,
                     "cash": cash]
