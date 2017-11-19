@@ -98,11 +98,15 @@ class PeopleStepperView: UIView {
     }
     
     @objc func didTouchDown(sender: UIButton) {
-        sender.transform = CGAffineTransform(scaleX: 0.9, y: 0.9)
+        UIView.animate(withDuration: 0.05) {
+            sender.transform = CGAffineTransform(scaleX: 0.9, y: 0.9)
+        }
     }
     
     @objc func didTouchUp(sender: UIButton) {
-        sender.transform = CGAffineTransform(scaleX: 1.0, y: 1.0)
+        UIView.animate(withDuration: 0.05) {
+            sender.transform = CGAffineTransform(scaleX: 1.0, y: 1.0)
+        }
     }
     
     @objc func didTap(sender: UIButton) {

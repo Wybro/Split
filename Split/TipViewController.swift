@@ -83,7 +83,7 @@ class TipViewController: UIViewController {
     func layoutConstraints() -> [NSLayoutConstraint] {
         return NSLayoutConstraint.constraints(
             formats: ["V:|-8-[results]-[tipBar]-[stepper]",
-                      "V:[entry(350)]-20-|",
+                      "V:[entry(350)]-40-|",
                       "H:|[results]|",
                       "H:|-60-[stepper]-60-|",
                       "H:|[tipBar]|",

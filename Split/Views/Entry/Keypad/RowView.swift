@@ -20,6 +20,9 @@ class RowView: UIView {
         button.titleLabel?.font = UIFont(name: "Barlow-Bold", size: 20)
         button.setTitleColor(Constants.white, for: .normal)
         button.addTarget(self, action: #selector(RowView.pressedButton(sender:)), for: .touchUpInside)
+        button.addTarget(self, action: #selector(RowView.didTouchDown(sender:)), for: .touchDown)
+        button.addTarget(self, action: #selector(RowView.didTouchUp(sender:)), for: [.touchUpInside, .touchDragOutside])
+        button.tag = 0
         return button
     }()
     
@@ -28,6 +31,9 @@ class RowView: UIView {
         button.titleLabel?.font = UIFont(name: "Barlow-Bold", size: 20)
         button.setTitleColor(Constants.white, for: .normal)
         button.addTarget(self, action: #selector(RowView.pressedButton(sender:)), for: .touchUpInside)
+        button.addTarget(self, action: #selector(RowView.didTouchDown(sender:)), for: .touchDown)
+        button.addTarget(self, action: #selector(RowView.didTouchUp(sender:)), for: [.touchUpInside, .touchDragOutside])
+        button.tag = 1
         return button
     }()
     
@@ -36,6 +42,9 @@ class RowView: UIView {
         button.titleLabel?.font = UIFont(name: "Barlow-Bold", size: 20)
         button.setTitleColor(Constants.white, for: .normal)
         button.addTarget(self, action: #selector(RowView.pressedButton(sender:)), for: .touchUpInside)
+        button.addTarget(self, action: #selector(RowView.didTouchDown(sender:)), for: .touchDown)
+        button.addTarget(self, action: #selector(RowView.didTouchUp(sender:)), for: [.touchUpInside, .touchDragOutside])
+        button.tag = 2
         return button
     }()
 
@@ -68,5 +77,31 @@ class RowView: UIView {
     
     @objc func pressedButton(sender: UIButton) {
         delegate?.rowButtonPressed(value: sender.currentTitle ?? "")
+    }
+    
+    func enabled(l: Bool = true, m: Bool = true, r: Bool = true) {
+        leftButton.alpha = l ? 1 : 0.6
+        leftButton.isUserInteractionEnabled = l
+        
+        centerButton.alpha = m ? 1 : 0.6
+        centerButton.isUserInteractionEnabled = m
+        
+        rightButton.alpha = r ? 1 : 0.6
+        rightButton.isUserInteractionEnabled = r
+    }
+}
+
+// MARK: - Animation
+extension RowView {
+    @objc func didTouchDown(sender: UIButton) {
+        UIView.animate(withDuration: 0.1) {
+            sender.transform = CGAffineTransform(scaleX: 2, y: 2)
+        }
+    }
+    
+    @objc func didTouchUp(sender: UIButton) {
+        UIView.animate(withDuration: 0.1) {
+            sender.transform = .identity
+        }
     }
 }

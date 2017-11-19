@@ -38,25 +38,53 @@ class ResultsBarView: UIView {
         super.init(coder: aDecoder)
     }
     
+//    func setup() {
+//        let tap = UITapGestureRecognizer(target: self, action: #selector(ResultsBarView.animateView))
+//        addGestureRecognizer(tap)
+//
+//        let stack = UIStackView(arrangedSubviews: [tip, total, bill])
+//        stack.distribution = .fillEqually
+//        stack.axis = .horizontal
+//        stack.spacing = 8
+//
+//        addSubview(stack.usingConstraints())
+//        addSubview(peopleLabel.usingConstraints())
+//
+//        NSLayoutConstraint.constraints(
+//            formats: ["H:|-10-[stack]-10-|",
+//                      "H:|[label]|",
+//                      "V:|[stack]-[label]|"],
+//            views: ["stack": stack,
+//                    "label": peopleLabel]
+//        ).activate()
+//    }
+    
     func setup() {
-        let tap = UITapGestureRecognizer(target: self, action: #selector(ResultsBarView.animateView))
-        addGestureRecognizer(tap)
+//        let tap = UITapGestureRecognizer(target: self, action: #selector(ResultsBarView.animateView))
+//        addGestureRecognizer(tap)
+        addSubview(tip.usingConstraints())
+        addSubview(total.usingConstraints())
+        addSubview(bill.usingConstraints())
         
-        let stack = UIStackView(arrangedSubviews: [tip, total, bill])
-        stack.distribution = .fillEqually
-        stack.axis = .horizontal
-        stack.spacing = 8
-        
-        addSubview(stack.usingConstraints())
+//        let stack = UIStackView(arrangedSubviews: [tip, total, bill])
+//        stack.distribution = .fillEqually
+//        stack.axis = .horizontal
+//        stack.spacing = 8
+//
+//        addSubview(stack.usingConstraints())
         addSubview(peopleLabel.usingConstraints())
         
         NSLayoutConstraint.constraints(
-            formats: ["H:|-10-[stack]-10-|",
+            formats: ["H:|-10-[total]-10-|",
+                      "H:|-10-[tip]-[bill(tip)]-10-|",
                       "H:|[label]|",
-                      "V:|[stack]-[label]|"],
-            views: ["stack": stack,
+                      "V:|[total]-[tip]-[label]|",
+                      "V:|[total]-[bill(tip)]|"],
+            views: ["tip": tip,
+                    "total": total,
+                    "bill": bill,
                     "label": peopleLabel]
-        ).activate()
+            ).activate()
     }
     
     func update(cost: Double, tipNum: Double, numPeople: Int = 1) {

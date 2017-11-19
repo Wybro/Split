@@ -44,6 +44,8 @@ class KeypadView: UIView {
     }
     
     func setup() {
+        enabled(.initial)
+        
         firstRow.delegate = self
         secondRow.delegate = self
         thirdRow.delegate = self
@@ -60,6 +62,26 @@ class KeypadView: UIView {
                       "V:|[stack]|"],
             views: ["stack": stack]
         ).activate()
+    }
+    
+    enum States {
+        case decimal, nondecimal, max, initial
+    }
+    
+    func enabled(_ state: States) {
+        switch state {
+        case .nondecimal:
+            [firstRow, secondRow, thirdRow, fourthRow].forEach { $0.enabled() }
+        case .decimal:
+            [firstRow, secondRow, thirdRow].forEach { $0.enabled() }
+            fourthRow.enabled(l: false)
+        case .max:
+            [firstRow, secondRow, thirdRow].forEach { $0.enabled(l: false, m: false, r: false) }
+            fourthRow.enabled(l: false, m: false)
+        case .initial:
+            [firstRow, secondRow, thirdRow].forEach { $0.enabled() }
+            fourthRow.enabled(m: false, r: false)
+        }
     }
 }
 

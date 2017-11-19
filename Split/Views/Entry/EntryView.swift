@@ -18,14 +18,7 @@ class EntryView: UIView {
     
     lazy var keypad: KeypadView = .init()
     
-    lazy var costLabel: UILabel = {
-        let label = UILabel()
-        label.text = "$0"
-        label.textAlignment = .center
-        label.font = UIFont(name: "Barlow-Bold", size: 35)
-        label.textColor = .white
-        return label
-    }()
+    lazy var header: HeaderView = .init()
     
     init() {
         super.init(frame: .zero)
@@ -40,45 +33,72 @@ class EntryView: UIView {
         keypad.delegate = self
         
         addSubview(keypad.usingConstraints())
-        addSubview(costLabel.usingConstraints())
+        addSubview(header.usingConstraints())
+        
+        header.center(in: self, type: .horizontal).activate()
         
         NSLayoutConstraint.constraints(
-            formats: ["H:|[cost]|",
-                      "H:|[keypad]|",
-                      "V:|[cost]-[keypad(>=300)]|"],
+            formats: ["H:|[keypad]|",
+                      "V:|[entry]-[keypad(>=300)]|"],
             views: ["keypad": keypad,
-                    "cost": costLabel]
+                    "entry": header]
         ).activate()
     }
 }
 
 extension EntryView: KeypadDelegate {
+    
     func keypadPressed(tap: Tap) {
-        let current = costLabel.text ?? ""
+        switch tap.action {
+        case .append:
+            if header.decimalMode {
+                header.userDecimals[header.userDecimal] = tap.data
+                header.userDecimal += 1
+            } else {
+                header.append(tap.data, type: .primary)
+            }
+            delegate?.costDidChange(value: header.doubleValue)
+        case .delete:
+            if header.decimalMode {
+                header.userDecimals[header.userDecimal - 1] = "0"
+                header.userDecimal -= 1
+                if header.userDecimal == 0 {
+                    header.decimalMode = false
+                }
+            } else {
+                header.dropLast()
+            }
+            delegate?.costDidChange(value: header.doubleValue)
+        case .decimal:
+            header.decimalMode = true
+        }
         
-        if tap.action == .delete {
-            if current != "$0" {
-                let newStr = String(current.dropLast())
-                let val = newStr == "$" ? "$0" : newStr
-                costLabel.text = val
-                
-                let costVal = Double(val.replacingOccurrences(of: "$", with: "")) ?? 0.00
-                delegate?.costDidChange(value: costVal)
-            }
-        } else if tap.action == .append {
-            let val = current == "$0" ? "$\(tap.data)" : current + tap.data
-            costLabel.text = val
-            
-            let costVal = Double(val.replacingOccurrences(of: "$", with: "")) ?? 0.00
-            delegate?.costDidChange(value: costVal)
-        } else if tap.action == .decimal {
-            if !current.contains(".") {
-                let val = current == "$0" ? "$0." : current + "."
-                costLabel.text = val
-                
-                let costVal = Double(val.replacingOccurrences(of: "$", with: "")) ?? 0.00
-                delegate?.costDidChange(value: costVal)
-            }
+        if header.full {
+            keypad.enabled(.max)
+        } else if header.empty {
+            keypad.enabled(.initial)
+        } else {
+            header.decimalMode ? keypad.enabled(.decimal) : keypad.enabled(.nondecimal)
+        }
+    }
+}
+
+extension UIView {
+    enum FillType {
+        case vertical, horizontal, full
+    }
+    func fill(_ superview: UIView, type: FillType = .full) -> [NSLayoutConstraint] {
+        
+        var attributes: [NSLayoutAttribute] = []
+        
+        switch type {
+        case .full: attributes = [.top, .bottom, .left, .right]
+        case .horizontal: attributes = [.left, .right]
+        case .vertical: attributes = [.top, .bottom]
+        }
+        
+        return attributes.map {
+            NSLayoutConstraint(item: self, attribute: $0, relatedBy: .equal, toItem: superview, attribute: $0, multiplier: 1, constant: 0)
         }
     }
 }
