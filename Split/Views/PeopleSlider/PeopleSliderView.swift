@@ -28,7 +28,7 @@ class PeopleSliderView: UIView {
     lazy var countLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.systemFont(ofSize: 18, weight: .medium)
-        label.textColor = .black
+        label.textColor = Constants.gray
         label.text = "1"
         label.textAlignment = .center
         return label
@@ -37,7 +37,7 @@ class PeopleSliderView: UIView {
     lazy var extraLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.systemFont(ofSize: 16, weight: .light)
-        label.textColor = .black
+        label.textColor = Constants.gray
         label.text = "Person"
         label.textAlignment = .center
         return label

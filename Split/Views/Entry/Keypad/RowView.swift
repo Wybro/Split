@@ -18,7 +18,7 @@ class RowView: UIView {
     lazy var leftButton: UIButton = {
         let button = UIButton()
         button.titleLabel?.font = UIFont.systemFont(ofSize: 20, weight: .medium)
-        button.setTitleColor(.white, for: .normal)
+        button.setTitleColor(Constants.white, for: .normal)
         button.addTarget(self, action: #selector(RowView.pressedButton(sender:)), for: .touchUpInside)
         return button
     }()
@@ -26,7 +26,7 @@ class RowView: UIView {
     lazy var centerButton: UIButton = {
         let button = UIButton()
         button.titleLabel?.font = UIFont.systemFont(ofSize: 20, weight: .medium)
-        button.setTitleColor(.white, for: .normal)
+        button.setTitleColor(Constants.white, for: .normal)
         button.addTarget(self, action: #selector(RowView.pressedButton(sender:)), for: .touchUpInside)
         return button
     }()
@@ -34,7 +34,7 @@ class RowView: UIView {
     lazy var rightButton: UIButton = {
         let button = UIButton()
         button.titleLabel?.font = UIFont.systemFont(ofSize: 20, weight: .medium)
-        button.setTitleColor(.white, for: .normal)
+        button.setTitleColor(Constants.white, for: .normal)
         button.addTarget(self, action: #selector(RowView.pressedButton(sender:)), for: .touchUpInside)
         return button
     }()

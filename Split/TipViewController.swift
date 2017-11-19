@@ -12,10 +12,6 @@ import StoreKit
 
 class TipViewController: UIViewController {
 
-    enum Constants {
-        static let green = UIColor(hex: "2CEAA3")
-    }
-
     lazy var tipBar: UISegmentedControl = {
         let control = UISegmentedControl(items: ["15%", "20%", "25%"])
         control.selectedSegmentIndex = 1
@@ -28,12 +24,10 @@ class TipViewController: UIViewController {
 
     lazy var resultsBar: ResultsBarView = .init()
 
-    lazy var peopleSlider: PeopleSliderView = {
-        let slider = PeopleSliderView()
-        slider.sliderColor = UIColor.white
-        return slider
-    }()
-    
+    lazy var peopleStepper: PeopleStepperView = .init()
+
+    lazy var keypad: KeypadView = .init()
+
     lazy var entry: EntryView = .init()
 
     var backingNumPeople: Int = 1
@@ -73,13 +67,14 @@ class TipViewController: UIViewController {
         let reviewButton = UIBarButtonItem(image: #imageLiteral(resourceName: "heart"), style: .plain, target: self, action: #selector(TipViewController.requestReview))
         reviewButton.tintColor = Constants.green
         navigationItem.leftBarButtonItem = reviewButton
+        navigationController?.navigationBar.barTintColor = Constants.gray
 
-        peopleSlider.delegate = self
         entry.delegate = self
+        peopleStepper.delegate = self
 
         view.addSubview(resultsBar.usingConstraints())
         view.addSubview(tipBar.usingConstraints())
-        view.addSubview(peopleSlider.usingConstraints())
+        view.addSubview(peopleStepper.usingConstraints())
         view.addSubview(entry.usingConstraints())
 
         layoutConstraints().activate()
@@ -87,15 +82,15 @@ class TipViewController: UIViewController {
 
     func layoutConstraints() -> [NSLayoutConstraint] {
         return NSLayoutConstraint.constraints(
-            formats: ["V:|-8-[results]-[tipBar]-[slider]",
+            formats: ["V:|-8-[results]-[tipBar]-[stepper]",
                       "V:[entry(350)]-20-|",
-                      "H:|[entry]|",
                       "H:|[results]|",
-                      "H:|-60-[slider]-60-|",
-                      "H:|[tipBar]|"],
+                      "H:|-60-[stepper]-60-|",
+                      "H:|[tipBar]|",
+                      "H:|[entry]|"],
             views: ["results": resultsBar,
                     "tipBar": tipBar,
-                    "slider": peopleSlider,
+                    "stepper": peopleStepper,
                     "entry": entry]
         )
     }
@@ -110,12 +105,12 @@ extension TipViewController {
 }
 
 // MARK: - Delegates
-extension TipViewController: PeopleSliderDelegate, EntryViewDelegate {
+extension TipViewController: PeopleSliderDelegate, EntryViewDelegate, PeopleStepperDelegate {
     func costDidChange(value: Double) {
         costValue = value
     }
-    
-    func sliderValueDidChange(value: Int) {
+
+    func stepperDidChange(value: Int) {
         numPeople = value
         value > 1 ? resultsBar.hideLabel(false) : resultsBar.hideLabel(true)
     }
