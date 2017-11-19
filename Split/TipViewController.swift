@@ -28,7 +28,7 @@ class TipViewController: UIViewController {
 
     lazy var keypad: KeypadView = .init()
 
-    lazy var entry: EntryView = .init()
+    lazy var entryView: EntryView = .init()
 
     var backingNumPeople: Int = 1
     var backingCostValue: Double = 0.00
@@ -69,13 +69,13 @@ class TipViewController: UIViewController {
         navigationItem.leftBarButtonItem = reviewButton
         navigationController?.navigationBar.barTintColor = Constants.gray
 
-        entry.delegate = self
+        entryView.delegate = self
         peopleStepper.delegate = self
 
         view.addSubview(resultsBar.usingConstraints())
         view.addSubview(tipBar.usingConstraints())
         view.addSubview(peopleStepper.usingConstraints())
-        view.addSubview(entry.usingConstraints())
+        view.addSubview(entryView.usingConstraints())
 
         layoutConstraints().activate()
     }
@@ -91,7 +91,7 @@ class TipViewController: UIViewController {
             views: ["results": resultsBar,
                     "tipBar": tipBar,
                     "stepper": peopleStepper,
-                    "entry": entry]
+                    "entry": entryView]
         )
     }
 }

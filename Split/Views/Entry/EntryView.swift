@@ -60,8 +60,10 @@ extension EntryView: KeypadDelegate {
             delegate?.costDidChange(value: header.doubleValue)
         case .delete:
             if header.decimalMode {
-                header.userDecimals[header.userDecimal - 1] = "0"
-                header.userDecimal -= 1
+                if header.userDecimal - 1 < header.userDecimals.count {
+                    header.userDecimals[header.userDecimal - 1] = "0"
+                    header.userDecimal -= 1
+                }
                 if header.userDecimal == 0 {
                     header.decimalMode = false
                 }
