@@ -105,7 +105,7 @@ extension TipViewController {
 }
 
 // MARK: - Delegates
-extension TipViewController: PeopleSliderDelegate, EntryViewDelegate, PeopleStepperDelegate {
+extension TipViewController: EntryViewDelegate, PeopleStepperDelegate {
     func costDidChange(value: Double) {
         costValue = value
     }
