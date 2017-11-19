@@ -19,7 +19,7 @@ class TipViewController: UIViewController {
     lazy var tipBar: UISegmentedControl = {
         let control = UISegmentedControl(items: ["15%", "20%", "25%"])
         control.selectedSegmentIndex = 1
-        control.tintColor = Constants.green
+        control.tintColor = .white
         control.addTarget(self, action: #selector(TipViewController.selectedSegmentDidChange(sender:)), for: .valueChanged)
         let attr = NSDictionary(object: UIFont(name: "Barlow", size: 16.0)!, forKey: NSAttributedStringKey.font as NSCopying)
         control.setTitleTextAttributes(attr as [NSObject : AnyObject], for: .normal)
