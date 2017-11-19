@@ -62,7 +62,7 @@ class CostView: UIView {
         addSubview(amountLabel.usingConstraints())
         
         NSLayoutConstraint.constraints(
-            formats: ["V:|[title(>=25)]-[amount(>=30)]|",
+            formats: ["V:|-[title(>=25)]-[amount(>=30)]-|",
                       "H:|[title]|",
                       "H:|[amount]|"],
             views: ["title": titleLabel,
