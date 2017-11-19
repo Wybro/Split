@@ -19,7 +19,7 @@ class CostView: UIView {
         label.text = "Title"
         label.font = UIFont(name: "Barlow-Light", size: 16)
         label.textAlignment = .center
-        label.textColor = .black
+        label.textColor = Constants.gray
         return label
     }()
     
@@ -28,7 +28,7 @@ class CostView: UIView {
         label.text = "$0.00"
         label.font = UIFont(name: "Barlow-Medium", size: 20)
         label.textAlignment = .center
-        label.textColor = .black
+        label.textColor = Constants.gray
         return label
     }()
     
@@ -44,12 +44,19 @@ class CostView: UIView {
     func setup(type: CostType) {
         let label = type == .tip ? "Tip" : (type == .total ? "Total" : "Bill")
         titleLabel.text = label
+        titleLabel.textColor = Constants.gray
         
         let titleSize: CGFloat = type == .total ? 20 : 16
         titleLabel.font = UIFont(name: "Barlow", size: titleSize)
         
         let amountSize: CGFloat = type == .total ? 24 : 20
         amountLabel.font = UIFont(name: "Barlow", size: amountSize)
+        backgroundColor = Constants.white
+        layer.cornerRadius = 8
+        layer.shadowColor = UIColor.black.cgColor
+        layer.shadowOpacity = 0.3
+        layer.shadowRadius = 3
+        layer.shadowOffset = CGSize(width: 0, height: 1)
         
         addSubview(titleLabel.usingConstraints())
         addSubview(amountLabel.usingConstraints())

@@ -45,6 +45,7 @@ class ResultsBarView: UIView {
         let stack = UIStackView(arrangedSubviews: [tip, total, bill])
         stack.distribution = .fillEqually
         stack.axis = .horizontal
+        stack.spacing = 8
         
         addSubview(stack.usingConstraints())
         addSubview(peopleLabel.usingConstraints())
@@ -71,18 +72,40 @@ class ResultsBarView: UIView {
     @objc func animateView() {
         animating = true
         viewType = viewType == .full ? .partial : .full
-        
-        UIView.animate(withDuration: 0.25, animations: {
-            let xShift: CGFloat = self.viewType == .full ? -20 : 20
-            
-            self.tip.transform = CGAffineTransform(translationX: xShift, y: 0)
-            self.tip.alpha = self.viewType == .full ? 1 : 0
-            
-            self.bill.transform = CGAffineTransform(translationX: -xShift, y: 0)
-            self.bill.alpha = self.viewType == .full ? 1 : 0
-        }) { (done) in
-            self.animating = false
+        if viewType == .full {
+            UIView.animate(withDuration: 0.25, animations: {
+                self.tip.transform = .identity
+                self.tip.alpha = 1
+                self.bill.transform = .identity
+                self.bill.alpha = 1
+            })
+        } else {
+            UIView.animate(withDuration: 0.25, animations: {
+                let xShift: CGFloat = 20
+                self.tip.transform = CGAffineTransform(translationX: xShift, y: 0)
+                self.tip.alpha = 0
+                self.bill.transform = CGAffineTransform(translationX: -xShift, y: 0)
+                self.bill.alpha = 0
+               
+            })
+        self.animating = false
+
         }
+        
+//        viewType = viewType == .full ? .partial : .full
+//
+//        UIView.animate(withDuration: 0.25, animations: {
+//
+//            let xShift: CGFloat = self.viewType == .full ? -20 : 20
+//
+//            self.tip.transform = CGAffineTransform(translationX: xShift, y: 0)
+//            self.tip.alpha = self.viewType == .full ? 1 : 0
+//
+//            self.bill.transform = CGAffineTransform(translationX: -xShift, y: 0)
+//            self.bill.alpha = self.viewType == .full ? 1 : 0
+//        }) { (done) in
+//            self.animating = false
+//        }
     }
     
     func hideLabel(_ value: Bool) {

@@ -12,10 +12,6 @@ import StoreKit
 
 class TipViewController: UIViewController {
 
-    enum Constants {
-        static let green = UIColor(hex: "2CEAA3")
-    }
-
     lazy var tipBar: UISegmentedControl = {
         let control = UISegmentedControl(items: ["15%", "20%", "25%"])
         control.selectedSegmentIndex = 1
@@ -28,11 +24,13 @@ class TipViewController: UIViewController {
 
     lazy var resultsBar: ResultsBarView = .init()
 
-    lazy var peopleSlider: PeopleSliderView = {
-        let slider = PeopleSliderView()
-        slider.sliderColor = UIColor.white
-        return slider
-    }()
+//    lazy var peopleSlider: PeopleSliderView = {
+//        let slider = PeopleSliderView()
+//        slider.sliderColor = UIColor.white
+//        return slider
+//    }()
+    
+    lazy var peopleStepper: PeopleStepperView = .init()
 
     lazy var keypad: KeypadView = .init()
 
@@ -77,17 +75,19 @@ class TipViewController: UIViewController {
 
     func setup() {
         view.backgroundColor = Constants.green
-
+        
         let reviewButton = UIBarButtonItem(image: #imageLiteral(resourceName: "heart"), style: .plain, target: self, action: #selector(TipViewController.requestReview))
         reviewButton.tintColor = Constants.green
         navigationItem.leftBarButtonItem = reviewButton
-
-        peopleSlider.delegate = self
+        navigationController?.navigationBar.barTintColor = Constants.gray
+//        peopleSlider.delegate = self
         keypad.delegate = self
+        peopleStepper.delegate = self
 
         view.addSubview(resultsBar.usingConstraints())
         view.addSubview(tipBar.usingConstraints())
-        view.addSubview(peopleSlider.usingConstraints())
+//        view.addSubview(peopleSlider.usingConstraints())
+        view.addSubview(peopleStepper.usingConstraints())
         view.addSubview(keypad.usingConstraints())
         view.addSubview(costLabel.usingConstraints())
 
@@ -96,16 +96,16 @@ class TipViewController: UIViewController {
 
     func layoutConstraints() -> [NSLayoutConstraint] {
         return NSLayoutConstraint.constraints(
-            formats: ["V:|-8-[results]-[tipBar]-[slider]",
+            formats: ["V:|-8-[results]-[tipBar]-[stepper]",
                       "V:[cost]-[keypad(350)]-16-|",
                       "H:|[keypad]|",
                       "H:|[results]|",
-                      "H:|-60-[slider]-60-|",
+                      "H:|-60-[stepper]-60-|",
                       "H:|[tipBar]|",
                       "H:|[cost]|"],
             views: ["results": resultsBar,
                     "tipBar": tipBar,
-                    "slider": peopleSlider,
+                    "stepper": peopleStepper,
                     "keypad": keypad,
                     "cost": costLabel]
         )
@@ -121,11 +121,16 @@ extension TipViewController {
 }
 
 // MARK: - Delegates
-extension TipViewController: PeopleSliderDelegate, KeypadDelegate {
-    func sliderValueDidChange(value: Int) {
+extension TipViewController: KeypadDelegate, PeopleStepperDelegate {
+    func stepperDidChange(value: Int) {
         numPeople = value
         value > 1 ? resultsBar.hideLabel(false) : resultsBar.hideLabel(true)
     }
+    
+//    func sliderValueDidChange(value: Int) {
+//        numPeople = value
+//        value > 1 ? resultsBar.hideLabel(false) : resultsBar.hideLabel(true)
+//    }
 
     @objc func selectedSegmentDidChange(sender: UISegmentedControl) {
         let tipStr = (sender.titleForSegment(at: sender.selectedSegmentIndex) ?? "20%")
