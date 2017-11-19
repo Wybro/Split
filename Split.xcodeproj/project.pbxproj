@@ -29,7 +29,6 @@
 		2D3189651FB508C700801D73 /* CostView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D3189641FB508C700801D73 /* CostView.swift */; };
 		2D3189671FB5157500801D73 /* TipButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D3189661FB5157500801D73 /* TipButton.swift */; };
 		2D3189691FB53F9800801D73 /* TipBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D3189681FB53F9800801D73 /* TipBarView.swift */; };
-		2D31896F1FB54C6800801D73 /* PeopleSliderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D31896E1FB54C6800801D73 /* PeopleSliderView.swift */; };
 		2D39251B1FB6B07400E01D2D /* KeypadView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D39251A1FB6B07400E01D2D /* KeypadView.swift */; };
 		2D39251D1FB6B10600E01D2D /* RowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D39251C1FB6B10600E01D2D /* RowView.swift */; };
 		2D95A6D31FC0FD5800942D38 /* EntryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D95A6D21FC0FD5800942D38 /* EntryView.swift */; };
@@ -74,7 +73,6 @@
 		2D3189641FB508C700801D73 /* CostView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CostView.swift; sourceTree = "<group>"; };
 		2D3189661FB5157500801D73 /* TipButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TipButton.swift; sourceTree = "<group>"; };
 		2D3189681FB53F9800801D73 /* TipBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TipBarView.swift; sourceTree = "<group>"; };
-		2D31896E1FB54C6800801D73 /* PeopleSliderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PeopleSliderView.swift; sourceTree = "<group>"; };
 		2D39251A1FB6B07400E01D2D /* KeypadView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeypadView.swift; sourceTree = "<group>"; };
 		2D39251C1FB6B10600E01D2D /* RowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RowView.swift; sourceTree = "<group>"; };
 		2D95A6D21FC0FD5800942D38 /* EntryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntryView.swift; sourceTree = "<group>"; };
@@ -189,21 +187,12 @@
 		2D31896C1FB54C4200801D73 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				25FBA0881FC0F84A00465CF0 /* PeopleStepperView.swift */,
 				2D95A6D01FC0FD2100942D38 /* Entry */,
-				2D31896D1FB54C5000801D73 /* PeopleSlider */,
 				2D31896B1FB54C3B00801D73 /* Cost */,
 				2D31896A1FB54C1D00801D73 /* Tip */,
 			);
 			path = Views;
-			sourceTree = "<group>";
-		};
-		2D31896D1FB54C5000801D73 /* PeopleSlider */ = {
-			isa = PBXGroup;
-			children = (
-				2D31896E1FB54C6800801D73 /* PeopleSliderView.swift */,
-				25FBA0881FC0F84A00465CF0 /* PeopleStepperView.swift */,
-			);
-			path = PeopleSlider;
 			sourceTree = "<group>";
 		};
 		2D3925191FB6B06000E01D2D /* Keypad */ = {
@@ -487,7 +476,6 @@
 				2D3189671FB5157500801D73 /* TipButton.swift in Sources */,
 				2D39251D1FB6B10600E01D2D /* RowView.swift in Sources */,
 				2D39251B1FB6B07400E01D2D /* KeypadView.swift in Sources */,
-				2D31896F1FB54C6800801D73 /* PeopleSliderView.swift in Sources */,
 				2D3189401FB4EE4800801D73 /* AppDelegate.swift in Sources */,
 				2D3189631FB5080900801D73 /* ResultsBarView.swift in Sources */,
 				2D95A6D31FC0FD5800942D38 /* EntryView.swift in Sources */,
