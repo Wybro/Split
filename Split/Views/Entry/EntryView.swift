@@ -22,7 +22,7 @@ class EntryView: UIView {
         let label = UILabel()
         label.text = "$0"
         label.textAlignment = .center
-        label.font = UIFont.systemFont(ofSize: 30, weight: .bold)
+        label.font = UIFont(name: "Barlow-Bold", size: 35)
         label.textColor = .white
         return label
     }()

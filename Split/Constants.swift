@@ -10,7 +10,7 @@ import Foundation
 import UIKit
 
 enum Constants {
-    static let green = UIColor(hex: "18B287")
+    static let green = UIColor(hex: "2CEAA3")
     static let gray = UIColor(hex: "586566")
     static let white = UIColor(hex: "FDFFE5")
 }
