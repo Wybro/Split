@@ -15,6 +15,8 @@ protocol PeopleStepperDelegate: class {
 
 class PeopleStepperView: UIView {
     
+    var countEngaged: Bool = false
+    
     private var backingCount: Int = 1
     
     var count: Int {
@@ -22,7 +24,9 @@ class PeopleStepperView: UIView {
             return backingCount
         } set {
             backingCount = newValue
-            countLabel.text = "\(newValue)"
+//            countLabelButton.set = "\(newValue)"
+            countLabelButton.setTitle("\(newValue)", for: .normal)
+
             
             let peopleStr = newValue == 1 ? "Person" : "People"
             extraLabel.text = peopleStr
@@ -40,13 +44,9 @@ class PeopleStepperView: UIView {
         button.contentVerticalAlignment = .center
         button.setTitle("+", for: .normal)
         button.titleLabel?.font = UIFont(name: "Barlow-Bold", size: 30)
-        button.layer.cornerRadius = 10
-        button.backgroundColor = Constants.white
         button.setTitleColor(Constants.green, for: .normal)
-        layer.shadowColor = UIColor.black.cgColor
-        layer.shadowOpacity = 0.3
-        layer.shadowRadius = 1
-        layer.shadowOffset = CGSize(width: 0, height: 1)
+        button.cardify()
+        button.isHidden = true
         return button
     }()
     
@@ -57,25 +57,36 @@ class PeopleStepperView: UIView {
         button.addTarget(self, action: #selector(PeopleStepperView.didTap(sender:)), for: .touchUpInside)
         button.setTitle("-", for: .normal)
         button.titleLabel?.font = UIFont(name: "Barlow-Bold", size: 30)
+        button.setTitleColor(Constants.green, for: .normal)
         button.contentHorizontalAlignment = .center
         button.contentVerticalAlignment = .center
-        button.layer.cornerRadius = 10
-        button.backgroundColor = Constants.white
-        button.setTitleColor(Constants.green, for: .normal)
-        layer.shadowColor = UIColor.black.cgColor
-        layer.shadowOpacity = 0.3
-        layer.shadowRadius = 1
-        layer.shadowOffset = CGSize(width: 0, height: 1)
+        button.cardify()
+        button.isHidden = true
         return button
     }()
     
-    lazy var countLabel: UILabel = {
-        let label = UILabel()
-        label.font = UIFont(name: "Barlow-Bold", size: 24)
-        label.textColor = Constants.white
-        label.text = "\(count)"
-        label.textAlignment = .center
-        return label
+//    lazy var countLabel: UILabel = {
+//        let label = UILabel()
+//        label.font = UIFont(name: "Barlow-Bold", size: 24)
+//        label.textColor = Constants.white
+//        label.text = "\(count)"
+//        label.textAlignment = .center
+//        label.cardify()
+//        return label
+//    }()
+    
+    lazy var countLabelButton: UIButton = {
+        let button = UIButton()
+        button.addTarget(self, action: #selector(PeopleStepperView.didTouchCountLabel(sender:)), for: .touchUpInside)
+        button.addTarget(self, action: #selector(PeopleStepperView.didTouchDown(sender:)), for: .touchDown)
+        button.addTarget(self, action: #selector(PeopleStepperView.didTouchUp(sender:)), for: [.touchUpInside,.touchDragOutside])
+        button.titleLabel?.font = UIFont(name: "Barlow-Bold", size: 30)
+        button.setTitleColor(Constants.green, for: .normal)
+        button.setTitle("\(count)", for: .normal)
+        button.contentHorizontalAlignment = .center
+        button.contentVerticalAlignment = .center
+        button.cardify()
+        return button
     }()
     
     lazy var extraLabel: UILabel = {
@@ -99,18 +110,18 @@ class PeopleStepperView: UIView {
     func setup() {
         addSubview(plus.usingConstraints())
         addSubview(minus.usingConstraints())
-        addSubview(countLabel.usingConstraints())
+        addSubview(countLabelButton.usingConstraints())
         addSubview(extraLabel.usingConstraints())
         
         NSLayoutConstraint.constraints(
-            formats: ["H:|[minus(40)]-[count(30)]-[plus(minus)]|",
+            formats: ["H:|[minus(40)]-[count(35)]-[plus(minus)]|",
                       "H:|[extra]|",
                       "V:|[count(40)][extra]|",
                       "V:|[minus(40)][extra]|",
                       "V:|[plus(40)][extra]|"],
             views: ["plus": plus,
                     "minus": minus,
-                    "count": countLabel,
+                    "count": countLabelButton,
                     "extra": extraLabel]
         ).activate()
     }
@@ -123,7 +134,36 @@ class PeopleStepperView: UIView {
     
     @objc func didTouchUp(sender: UIButton) {
         UIView.animate(withDuration: 0.05) {
-            sender.transform = CGAffineTransform(scaleX: 1.0, y: 1.0)
+            sender.transform = .identity
+        }
+    }
+    
+    @objc func didTouchCountLabel(sender: UIButton) {
+        if !countEngaged {
+            plus.isHidden = false
+            minus.isHidden = false
+            plus.alpha = 0
+            minus.alpha = 0
+            plus.transform = CGAffineTransform(translationX: -20, y: 0)
+            minus.transform = CGAffineTransform(translationX: 20, y: 0)
+            UIView.animate(withDuration: 0.1) {
+                self.plus.alpha = 1
+                self.minus.alpha = 1
+                self.plus.transform = .identity
+                self.minus.transform = .identity
+            }
+            countEngaged = true
+        } else {
+            UIView.animate(withDuration: 0.1, animations: {
+                self.plus.alpha = 0
+                self.minus.alpha = 0
+                self.plus.transform = CGAffineTransform(translationX: -20, y: 0)
+                self.minus.transform = CGAffineTransform(translationX: 20, y: 0)
+            }, completion: { (complete) in
+                self.plus.isHidden = true
+                self.minus.isHidden = true
+            })
+            countEngaged = false
         }
     }
     
