@@ -20,16 +20,16 @@ class ResultsBarView: UIView {
     lazy var tip: CostView = .init(type: .tip)
     lazy var total: CostView = .init(type: .total)
     lazy var bill: CostView = .init(type: .bill)
-    lazy var tipBar: TipView = .init()
+    lazy var tipView: TipView = .init()
     
-    lazy var peopleLabel: UILabel = {
-        let label = UILabel()
-        label.font = UIFont.systemFont(ofSize: 14)
-        label.textAlignment = .center
-        label.text = "per person"
-        label.alpha = 0
-        return label
-    }()
+//    lazy var peopleLabel: UILabel = {
+//        let label = UILabel()
+//        label.font = UIFont.systemFont(ofSize: 14)
+//        label.textAlignment = .center
+//        label.text = "per person"
+//        label.alpha = 0
+//        return label
+//    }()
 
     init() {
         super.init(frame: .zero)
@@ -48,22 +48,20 @@ class ResultsBarView: UIView {
         addSubview(tip.usingConstraints())
         addSubview(total.usingConstraints())
         addSubview(bill.usingConstraints())
-        addSubview(tipBar.usingConstraints())
-        addSubview(peopleLabel.usingConstraints())
+        addSubview(tipView.usingConstraints())
+//        addSubview(peopleLabel.usingConstraints())
         
         NSLayoutConstraint.constraints(
             formats: ["H:|-10-[total]-10-|",
                       "H:|-10-[tip]-[bill(tip)]-10-|",
-                      "H:|-10-[tipBar]-10-|",
-                      "H:|[label]|",
-                      "V:|[total]-[tip]-[tipBar(tip)]-[label]|",
-                      "V:|[total]-[bill(tip)]|"],
+                      "H:|-10-[tipView]-10-|",
+                      "V:|[total]-[tip(total)]-[tipView(total)]-|",
+                      "V:[total]-[bill(total)]"],
             views: ["tip": tip,
                     "total": total,
                     "bill": bill,
-                    "label": peopleLabel,
-                    "tipBar": tipBar]
-            ).activate()
+                    "tipView": tipView]
+        ).activate()
     }
     
     func update(cost: Double, tipNum: Double, numPeople: Int = 1) {
@@ -99,18 +97,18 @@ class ResultsBarView: UIView {
         }
     }
     
-    func hideLabel(_ value: Bool) {
-        UIView.animate(withDuration: 0.2) {
-            self.peopleLabel.alpha = value ? 0 : 1
-        }
-    }
+//    func hideLabel(_ value: Bool) {
+//        UIView.animate(withDuration: 0.2) {
+//            self.peopleLabel.alpha = value ? 0 : 1
+//        }
+//    }
 }
 
 extension ResultsBarView: CostViewDelegate {
     func didTapCostView(sender: CostView) {
         if sender.type == .tip {
             sender.shake(.light)
-            tipBar.toggle()
+            tipView.toggle()
         }
     }
 }

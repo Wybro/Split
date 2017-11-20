@@ -53,7 +53,6 @@ class TipView: UIView {
         let tipStr = (sender.titleForSegment(at: sender.selectedSegmentIndex) ?? "20%")
         let cleanStr = tipStr.replacingOccurrences(of: "%", with: "")
         let tipVal = (Double(cleanStr) ?? 20.0) / 100.0
-//        tipValue = tipVal
         delegate?.tipDidChange(value: tipVal)
     }
     
