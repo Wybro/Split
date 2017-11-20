@@ -184,15 +184,3 @@ class HeaderView: UIView {
         }
     }
 }
-
-
-// MARK: - Animations
-extension HeaderView {
-    func shake() {
-        self.transform = CGAffineTransform(scaleX: 1.1, y: 1.1)
-        
-        UIView.animate(withDuration: 0.1, animations: {
-            self.transform = CGAffineTransform(scaleX: 1.0, y: 1.0)
-        })
-    }
-}
