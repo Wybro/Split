@@ -76,16 +76,17 @@ class TipViewController: UIViewController {
         view.addSubview(tipBar.usingConstraints())
         view.addSubview(peopleStepper.usingConstraints())
         view.addSubview(entry.usingConstraints())
+        
+        peopleStepper.center(in: view, type: .horizontal).activate()
 
         layoutConstraints().activate()
     }
 
     func layoutConstraints() -> [NSLayoutConstraint] {
         return NSLayoutConstraint.constraints(
-            formats: ["V:|-8-[results]-[tipBar]-[stepper]",
+            formats: ["V:|-8-[results]-[tipBar]-40-[stepper]",
                       "V:[entry(350)]-40-|",
                       "H:|[results]|",
-                      "H:|-60-[stepper]-60-|",
                       "H:|[tipBar]|",
                       "H:|[entry]|"],
             views: ["results": resultsBar,
