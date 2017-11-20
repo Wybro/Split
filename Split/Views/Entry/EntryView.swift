@@ -10,6 +10,7 @@ import UIKit
 
 protocol EntryViewDelegate: class {
     func costDidChange(value: Double)
+    func didStartTyping()
 }
 
 class EntryView: UIView {
@@ -54,6 +55,8 @@ class EntryView: UIView {
 extension EntryView: KeypadDelegate {
     
     func keypadPressed(tap: Tap) {
+        delegate?.didStartTyping()
+        
         switch tap.action {
         case .append:
             if header.decimalMode {

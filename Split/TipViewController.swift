@@ -74,6 +74,8 @@ class TipViewController: UIViewController {
         view.addSubview(resultsBar.usingConstraints())
         view.addSubview(peopleStepper.usingConstraints())
         view.addSubview(entryView.usingConstraints())
+        
+        view.bringSubview(toFront: resultsBar)
 
         peopleStepper.center(in: view, type: .horizontal).activate()
 
@@ -83,7 +85,7 @@ class TipViewController: UIViewController {
     func layoutConstraints() -> [NSLayoutConstraint] {
         return NSLayoutConstraint.constraints(
             formats: ["V:|-8-[results]",
-                      "V:[stepper]-20-[entry(entryHeight)]-bottom-|",
+                      "V:[stepper]-15-[entry(entryHeight)]-bottom-|",
                       "H:|[results]|",
                       "H:|[entry]|"],
             metrics: ["bottom": Metrics.bottomPadding,
@@ -112,10 +114,22 @@ extension TipViewController: EntryViewDelegate, PeopleStepperDelegate, TipViewDe
     func costDidChange(value: Double) {
         costValue = value
     }
+    
+    func didStartTyping() {
+        if resultsBar.tipView.enabled { resultsBar.tipView.toggle() }
+        if peopleStepper.countEngaged { peopleStepper.toggle() }
+    }
+    
+    func didToggleTipView() {
+        if peopleStepper.countEngaged { peopleStepper.toggle() }
+    }
+    
+    func didToggleStepper() {
+        if resultsBar.tipView.enabled { resultsBar.tipView.toggle() }
+    }
 
     func stepperDidChange(value: Int) {
         numPeople = value
-//        value > 1 ? resultsBar.hideLabel(false) : resultsBar.hideLabel(true)
     }
 }
 

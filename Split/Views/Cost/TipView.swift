@@ -10,6 +10,7 @@ import UIKit
 
 protocol TipViewDelegate: class {
     func tipDidChange(value: Double)
+    func didToggleTipView()
 }
 
 class TipView: UIView {
@@ -57,6 +58,7 @@ class TipView: UIView {
     }
     
     func toggle() {
+        delegate?.didToggleTipView()
         if enabled {
             enabled = false
             
