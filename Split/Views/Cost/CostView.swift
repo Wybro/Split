@@ -8,11 +8,18 @@
 
 import UIKit
 
+protocol CostViewDelegate: class {
+    func didTapCostView(sender: CostView)
+}
+
 class CostView: UIView {
     
     enum CostType {
         case tip, total, bill
     }
+    
+    var type: CostType?
+    weak var delegate: CostViewDelegate?
 
     lazy var titleLabel: UILabel = {
         let label = UILabel()
@@ -32,6 +39,13 @@ class CostView: UIView {
         return label
     }()
     
+    lazy var imageView: UIImageView = {
+        let imageView = UIImageView()
+        imageView.image = #imageLiteral(resourceName: "info")
+        imageView.isHidden = true
+        return imageView
+    }()
+    
     init(type: CostType) {
         super.init(frame: .zero)
         setup(type: type)
@@ -42,6 +56,11 @@ class CostView: UIView {
     }
     
     func setup(type: CostType) {
+        self.type = type
+        imageView.isHidden = !(type == .tip)
+        
+        addTap()
+        
         let label = type == .tip ? "Tip" : (type == .total ? "Total" : "Bill")
         titleLabel.text = label
         titleLabel.textColor = Constants.gray
@@ -51,23 +70,28 @@ class CostView: UIView {
         
         let amountSize: CGFloat = type == .total ? 24 : 20
         amountLabel.font = UIFont(name: "Barlow", size: amountSize)
-        backgroundColor = Constants.white
-        layer.cornerRadius = 8
-        layer.shadowColor = UIColor.black.cgColor
-        layer.shadowOpacity = 0.3
-        layer.shadowRadius = 3
-        layer.shadowOffset = CGSize(width: 0, height: 1)
+        
+        cardify()
         
         addSubview(titleLabel.usingConstraints())
         addSubview(amountLabel.usingConstraints())
+        addSubview(imageView.usingConstraints())
         
         NSLayoutConstraint.constraints(
             formats: ["V:|-[title(>=25)]-[amount(>=30)]-|",
                       "H:|[title]|",
-                      "H:|[amount]|"],
+                      "H:|[amount]|",
+                      "H:[image(20)]-3-|",
+                      "V:|-3-[image(20)]"],
             views: ["title": titleLabel,
-                    "amount": amountLabel]
+                    "amount": amountLabel,
+                    "image": imageView]
         ).activate()
+    }
+    
+    func addTap() {
+        let tap = UITapGestureRecognizer(target: self, action: #selector(CostView.didTapView(sender:)))
+        addGestureRecognizer(tap)
     }
     
     func update(cost: Double) {
@@ -76,5 +100,9 @@ class CostView: UIView {
         formatter.numberStyle = .currency
         
         amountLabel.text = "\(formatter.string(from: NSNumber(value: cost)) ?? "$0.00")"
+    }
+    
+    @objc func didTapView(sender: CostView) {
+        delegate?.didTapCostView(sender: self)
     }
 }
