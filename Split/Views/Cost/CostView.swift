@@ -41,7 +41,7 @@ class CostView: UIView {
     
     lazy var imageView: UIImageView = {
         let imageView = UIImageView()
-//        imageView.image =
+        imageView.image = #imageLiteral(resourceName: "info")
         imageView.isHidden = true
         return imageView
     }()
@@ -85,8 +85,8 @@ class CostView: UIView {
             formats: ["V:|-[title(>=25)]-[amount(>=30)]-|",
                       "H:|[title]|",
                       "H:|[amount]|",
-                      "H:[image(20)]-|",
-                      "V:|-[image(20)]"],
+                      "H:[image(20)]-2-|",
+                      "V:|-2-[image(20)]"],
             views: ["title": titleLabel,
                     "amount": amountLabel,
                     "image": imageView]
