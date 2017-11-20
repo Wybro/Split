@@ -11,12 +11,12 @@ import WybroStarter
 import StoreKit
 
 class TipViewController: UIViewController {
-    
+
     enum Metrics {
         static var bottomPadding: CGFloat {
             return smallScreen ? UIScreen.main.bounds.height * 0.03 : UIScreen.main.bounds.height * 0.05
         }
-        
+
         static let entryHeight = UIScreen.main.bounds.height * 0.4
     }
 
@@ -84,18 +84,18 @@ class TipViewController: UIViewController {
         view.addSubview(tipBar.usingConstraints())
         tipBar.isHidden = true
         view.addSubview(peopleStepper.usingConstraints())
-        peopleStepper.isHidden = true
         view.addSubview(entryView.usingConstraints())
+
+        peopleStepper.center(in: view, type: .horizontal).activate()
 
         layoutConstraints().activate()
     }
 
     func layoutConstraints() -> [NSLayoutConstraint] {
         return NSLayoutConstraint.constraints(
-            formats: ["V:|-8-[results]-[tipBar]-[stepper]",
+            formats: ["V:|-8-[results]-[tipBar]-40-[stepper]",
                       "V:[entry(entryHeight)]-bottom-|",
                       "H:|[results]|",
-                      "H:|-60-[stepper]-60-|",
                       "H:|[tipBar]|",
                       "H:|[entry]|"],
             metrics: ["bottom": Metrics.bottomPadding,
