@@ -70,12 +70,8 @@ class CostView: UIView {
         
         let amountSize: CGFloat = type == .total ? 24 : 20
         amountLabel.font = UIFont(name: "Barlow", size: amountSize)
-        backgroundColor = Constants.white
-        layer.cornerRadius = 8
-        layer.shadowColor = UIColor.black.cgColor
-        layer.shadowOpacity = 0.3
-        layer.shadowRadius = 3
-        layer.shadowOffset = CGSize(width: 0, height: 1)
+        
+        cardify()
         
         addSubview(titleLabel.usingConstraints())
         addSubview(amountLabel.usingConstraints())
@@ -85,8 +81,8 @@ class CostView: UIView {
             formats: ["V:|-[title(>=25)]-[amount(>=30)]-|",
                       "H:|[title]|",
                       "H:|[amount]|",
-                      "H:[image(20)]-2-|",
-                      "V:|-2-[image(20)]"],
+                      "H:[image(20)]-3-|",
+                      "V:|-3-[image(20)]"],
             views: ["title": titleLabel,
                     "amount": amountLabel,
                     "image": imageView]

@@ -35,4 +35,13 @@ extension UIView {
             self.transform = CGAffineTransform(scaleX: 1.0, y: 1.0)
         })
     }
+    
+    func cardify() {
+        backgroundColor = Constants.white
+        layer.cornerRadius = 8
+        layer.shadowColor = UIColor.black.cgColor
+        layer.shadowOpacity = 0.3
+        layer.shadowRadius = 3
+        layer.shadowOffset = CGSize(width: 0, height: 1)
+    }
 }
