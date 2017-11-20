@@ -40,31 +40,7 @@ class ResultsBarView: UIView {
         super.init(coder: aDecoder)
     }
     
-//    func setup() {
-//        let tap = UITapGestureRecognizer(target: self, action: #selector(ResultsBarView.animateView))
-//        addGestureRecognizer(tap)
-//
-//        let stack = UIStackView(arrangedSubviews: [tip, total, bill])
-//        stack.distribution = .fillEqually
-//        stack.axis = .horizontal
-//        stack.spacing = 8
-//
-//        addSubview(stack.usingConstraints())
-//        addSubview(peopleLabel.usingConstraints())
-//
-//        NSLayoutConstraint.constraints(
-//            formats: ["H:|-10-[stack]-10-|",
-//                      "H:|[label]|",
-//                      "V:|[stack]-[label]|"],
-//            views: ["stack": stack,
-//                    "label": peopleLabel]
-//        ).activate()
-//    }
-    
     func setup() {
-//        let tap = UITapGestureRecognizer(target: self, action: #selector(ResultsBarView.animateView))
-//        addGestureRecognizer(tap)
-        
         tip.delegate = self
         total.delegate = self
         bill.delegate = self
@@ -73,13 +49,6 @@ class ResultsBarView: UIView {
         addSubview(total.usingConstraints())
         addSubview(bill.usingConstraints())
         addSubview(tipBar.usingConstraints())
-        
-//        let stack = UIStackView(arrangedSubviews: [tip, total, bill])
-//        stack.distribution = .fillEqually
-//        stack.axis = .horizontal
-//        stack.spacing = 8
-//
-//        addSubview(stack.usingConstraints())
         addSubview(peopleLabel.usingConstraints())
         
         NSLayoutConstraint.constraints(
@@ -127,23 +96,7 @@ class ResultsBarView: UIView {
                
             })
         self.animating = false
-
         }
-        
-//        viewType = viewType == .full ? .partial : .full
-//
-//        UIView.animate(withDuration: 0.25, animations: {
-//
-//            let xShift: CGFloat = self.viewType == .full ? -20 : 20
-//
-//            self.tip.transform = CGAffineTransform(translationX: xShift, y: 0)
-//            self.tip.alpha = self.viewType == .full ? 1 : 0
-//
-//            self.bill.transform = CGAffineTransform(translationX: -xShift, y: 0)
-//            self.bill.alpha = self.viewType == .full ? 1 : 0
-//        }) { (done) in
-//            self.animating = false
-//        }
     }
     
     func hideLabel(_ value: Bool) {
