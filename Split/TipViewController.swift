@@ -20,16 +20,6 @@ class TipViewController: UIViewController {
         static let entryHeight = UIScreen.main.bounds.height * 0.4
     }
 
-    lazy var tipBar: UISegmentedControl = {
-        let control = UISegmentedControl(items: ["15%", "20%", "25%"])
-        control.selectedSegmentIndex = 1
-        control.tintColor = .white
-        control.addTarget(self, action: #selector(TipViewController.selectedSegmentDidChange(sender:)), for: .valueChanged)
-        let attr = NSDictionary(object: UIFont(name: "Barlow", size: 16.0)!, forKey: NSAttributedStringKey.font as NSCopying)
-        control.setTitleTextAttributes(attr as [NSObject : AnyObject], for: .normal)
-        return control
-    }()
-
     lazy var resultsBar: ResultsBarView = .init()
 
     lazy var peopleStepper: PeopleStepperView = .init()
@@ -79,12 +69,13 @@ class TipViewController: UIViewController {
 
         entryView.delegate = self
         peopleStepper.delegate = self
+        resultsBar.tipView.delegate = self
 
         view.addSubview(resultsBar.usingConstraints())
-        view.addSubview(tipBar.usingConstraints())
-        tipBar.isHidden = true
         view.addSubview(peopleStepper.usingConstraints())
         view.addSubview(entryView.usingConstraints())
+        
+        view.bringSubview(toFront: resultsBar)
 
         peopleStepper.center(in: view, type: .horizontal).activate()
 
@@ -93,15 +84,13 @@ class TipViewController: UIViewController {
 
     func layoutConstraints() -> [NSLayoutConstraint] {
         return NSLayoutConstraint.constraints(
-            formats: ["V:|-8-[results]-[tipBar]-40-[stepper]",
-                      "V:[entry(entryHeight)]-bottom-|",
+            formats: ["V:|-8-[results]",
+                      "V:[stepper]-15-[entry(entryHeight)]-bottom-|",
                       "H:|[results]|",
-                      "H:|[tipBar]|",
                       "H:|[entry]|"],
             metrics: ["bottom": Metrics.bottomPadding,
                       "entryHeight": Metrics.entryHeight],
             views: ["results": resultsBar,
-                    "tipBar": tipBar,
                     "stepper": peopleStepper,
                     "entry": entryView]
         )
@@ -117,21 +106,30 @@ extension TipViewController {
 }
 
 // MARK: - Delegates
-extension TipViewController: EntryViewDelegate, PeopleStepperDelegate {
+extension TipViewController: EntryViewDelegate, PeopleStepperDelegate, TipViewDelegate {
+    func tipDidChange(value: Double) {
+        tipValue = value
+    }
+    
     func costDidChange(value: Double) {
         costValue = value
+    }
+    
+    func didStartTyping() {
+        if resultsBar.tipView.enabled { resultsBar.tipView.toggle() }
+        if peopleStepper.countEngaged { peopleStepper.toggle() }
+    }
+    
+    func didToggleTipView() {
+        if peopleStepper.countEngaged { peopleStepper.toggle() }
+    }
+    
+    func didToggleStepper() {
+        if resultsBar.tipView.enabled { resultsBar.tipView.toggle() }
     }
 
     func stepperDidChange(value: Int) {
         numPeople = value
-        value > 1 ? resultsBar.hideLabel(false) : resultsBar.hideLabel(true)
-    }
-
-    @objc func selectedSegmentDidChange(sender: UISegmentedControl) {
-        let tipStr = (sender.titleForSegment(at: sender.selectedSegmentIndex) ?? "20%")
-        let cleanStr = tipStr.replacingOccurrences(of: "%", with: "")
-        let tipVal = (Double(cleanStr) ?? 20.0) / 100.0
-        tipValue = tipVal
     }
 }
 

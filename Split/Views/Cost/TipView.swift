@@ -10,6 +10,7 @@ import UIKit
 
 protocol TipViewDelegate: class {
     func tipDidChange(value: Double)
+    func didToggleTipView()
 }
 
 class TipView: UIView {
@@ -39,14 +40,7 @@ class TipView: UIView {
     
     func setup() {
         isHidden = true
-        
-        backgroundColor = Constants.white
-        layer.cornerRadius = 8
-        layer.shadowColor = UIColor.black.cgColor
-        layer.shadowOpacity = 0.3
-        layer.shadowRadius = 3
-        layer.shadowOffset = CGSize(width: 0, height: 1)
-        
+        cardify()
         addSubview(tipBar.usingConstraints())
         
         NSLayoutConstraint.constraints(
@@ -60,11 +54,11 @@ class TipView: UIView {
         let tipStr = (sender.titleForSegment(at: sender.selectedSegmentIndex) ?? "20%")
         let cleanStr = tipStr.replacingOccurrences(of: "%", with: "")
         let tipVal = (Double(cleanStr) ?? 20.0) / 100.0
-//        tipValue = tipVal
         delegate?.tipDidChange(value: tipVal)
     }
     
     func toggle() {
+        delegate?.didToggleTipView()
         if enabled {
             enabled = false
             

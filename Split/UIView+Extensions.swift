@@ -44,4 +44,10 @@ extension UIView {
         layer.shadowRadius = 3
         layer.shadowOffset = CGSize(width: 0, height: 1)
     }
+    
+    func animate(closure: @escaping () -> ()) {
+        UIView.animate(withDuration: 0.1) {
+            closure()
+        }
+    }
 }

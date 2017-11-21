@@ -10,6 +10,7 @@ import UIKit
 
 protocol EntryViewDelegate: class {
     func costDidChange(value: Double)
+    func didStartTyping()
 }
 
 class EntryView: UIView {
@@ -54,36 +55,22 @@ class EntryView: UIView {
 extension EntryView: KeypadDelegate {
     
     func keypadPressed(tap: Tap) {
+        delegate?.didStartTyping()
+        
         switch tap.action {
         case .append:
-            if header.decimalMode {
-                header.userDecimals[header.userDecimal] = tap.data
-                header.userDecimal += 1
-            } else {
-                header.append(tap.data, type: .primary)
-            }
-            delegate?.costDidChange(value: header.doubleValue)
+            header.decimalMode ? header.append(tap.data, type: .decimal) : header.append(tap.data, type: .primary)
         case .delete:
-            if header.decimalMode {
-                if header.userDecimal - 1 < header.userDecimals.count {
-                    header.userDecimals[header.userDecimal - 1] = "0"
-                    header.userDecimal -= 1
-                }
-                if header.userDecimal == 0 {
-                    header.decimalMode = false
-                }
-            } else {
-                header.dropLast()
-            }
-            delegate?.costDidChange(value: header.doubleValue)
+            header.decimalMode ? header.delete(type: .decimal) : header.delete(type: .primary)
         case .decimal:
             header.decimalMode = true
         }
+        delegate?.costDidChange(value: header.doubleValue)
         
         if header.full {
             keypad.enabled(.max)
         } else if header.empty {
-            keypad.enabled(.initial)
+            header.decimalMode ? keypad.enabled(.emptydecimal) : keypad.enabled(.initial)
         } else {
             header.decimalMode ? keypad.enabled(.decimal) : keypad.enabled(.nondecimal)
         }

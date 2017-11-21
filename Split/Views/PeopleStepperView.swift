@@ -11,6 +11,7 @@ import UIKit
 
 protocol PeopleStepperDelegate: class {
     func stepperDidChange(value: Int)
+    func didToggleStepper()
 }
 
 class PeopleStepperView: UIView {
@@ -80,7 +81,7 @@ class PeopleStepperView: UIView {
     
     lazy var extraLabel: UILabel = {
        let label = UILabel()
-        label.font = UIFont(name: "Barlow", size: 16)
+        label.font = UIFont(name: "Barlow-Medium", size: 16)
         label.textColor = Constants.white
         label.text = "Person"
         label.textAlignment = .center
@@ -127,7 +128,8 @@ class PeopleStepperView: UIView {
         }
     }
     
-    @objc func didTouchCountLabel(sender: UIButton) {
+    func toggle() {
+        delegate?.didToggleStepper()
         if !countEngaged {
             plus.isHidden = false
             minus.isHidden = false
@@ -154,6 +156,10 @@ class PeopleStepperView: UIView {
             })
             countEngaged = false
         }
+    }
+    
+    @objc func didTouchCountLabel(sender: UIButton) {
+        toggle()
     }
     
     @objc func didTap(sender: UIButton) {

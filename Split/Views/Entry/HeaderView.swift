@@ -24,53 +24,25 @@ class HeaderView: UIView {
         }
     }
     
-    private var backingPrimaryStr = "0"
-    private var backingDecimalStr = ""
-    
-    var primaryStr: String {
-        get {
-            return backingPrimaryStr
-        } set {
-            backingPrimaryStr = newValue
-            primary.text = newValue
-        }
-    }
-    
-    var decimalStr: String {
-        get {
-            return backingDecimalStr
-        } set {
-            backingDecimalStr = newValue
-            decimal.text = newValue
-        }
-    }
-    
-    private var backingUserD: [String] = ["0","0"]
-    private var backingUserP: [String] = ["0"]
-    
-    var userDecimals: [String] {
-        get {
-            return backingUserD
-        } set {
-            backingUserD = newValue
-            decimal.text = newValue.reduce("",+)
+    var userDecimals: [String] = ["0", "0"] {
+        didSet {
+            decimal.text = userDecimals.reduce("",+)
             shake()
         }
     }
     
-    var userPrimaries: [String] {
-        get {
-            return backingUserP
-        } set {
-            backingUserP = newValue
-            primary.text = newValue.reduce("",+)
+    var userPrimaries: [String] = ["0"] {
+        didSet {
+            primary.text = userPrimaries.reduce("",+)
             shake()
         }
     }
     
     var decimalMode: Bool = false {
         didSet {
-            decimal.alpha = decimalMode ? 1 : 0.6
+            animate {
+                self.decimal.alpha = self.decimalMode ? 0.6 : 0
+            }
         }
     }
     
@@ -78,17 +50,18 @@ class HeaderView: UIView {
         return userPrimary == 0 && userDecimal == 0
     }
     
-    var userDecimal = 0
+    var userDecimal = 0 {
+        didSet {
+            let alpha: CGFloat = userDecimal > 0 ? 1 : 0.6
+            decimal.alpha = alpha
+        }
+    }
     var userPrimary = 0
     
     var doubleValue: Double {
         let primary = userPrimaries.reduce("", +)
         let decimal = userDecimals.reduce("", +)
         return Double("\(primary).\(decimal)") ?? 0.00
-    }
-    
-    var primaryFull: Bool {
-        return userPrimary == 5
     }
     
     var decimalFull: Bool {
@@ -123,7 +96,7 @@ class HeaderView: UIView {
         label.textAlignment = .left
         label.font = UIFont(name: "Barlow-Bold", size: Metrics.dTextSize)
         label.textColor = Constants.white
-        label.alpha = 0.6
+        label.alpha = 0
         return label
     }()
 
@@ -151,36 +124,68 @@ class HeaderView: UIView {
                     "cash": cash]
         ).activate()
     }
-    
-    enum AppendType {
+}
+
+// MARK: - Append
+extension HeaderView {
+    enum ActionType {
         case primary, decimal
     }
     
-    func append(_ element: String, type: AppendType) {
+    func append(_ element: String, type: ActionType) {
         switch type {
-        case .primary:
-            if userPrimary < 5 {
-                if userPrimaries.first == "0"{
-                    if element != "0" {
-                        userPrimaries[0] = element
-                        userPrimary += 1
-                    }
-                } else {
-                    userPrimaries.append(element)
-                    userPrimary += 1
-                }
-            }
-        case .decimal: userDecimals.append(element) 
+        case .primary: appendPrimary(element)
+        case .decimal: appendDecimal(element)
         }
     }
     
-    func dropLast() {
+    private func appendPrimary(_ element: String) {
+        guard userPrimary < 5 else { return }
+        if userPrimaries.first == "0" {
+            if element != "0" {
+                userPrimaries[0] = element
+                userPrimary += 1
+            }
+        } else {
+            userPrimaries.append(element)
+            userPrimary += 1
+        }
+    }
+    
+    private func appendDecimal(_ element: String) {
+        guard userDecimal < 2 else { return }
+        userDecimals[userDecimal] = element
+        userDecimal += 1
+    }
+}
+
+// MARK: - Delete
+extension HeaderView {
+    func delete(type: ActionType) {
+        switch type {
+        case .primary: deletePrimary()
+        case .decimal: deleteDecimal()
+        }
+    }
+    
+    private func deletePrimary() {
         if userPrimaries.first != "0" && !userPrimaries.isEmpty {
             userPrimaries.removeLast()
             userPrimary -= 1
             if userPrimary == 0 {
                 userPrimaries.append("0")
             }
+        }
+    }
+    
+    private func deleteDecimal() {
+        guard decimalMode else { return }
+        
+        if userDecimals == ["0", "0"] && userDecimal == 0 {
+            decimalMode = false
+        } else if userDecimal - 1 < userDecimals.count {
+            userDecimals[userDecimal - 1] = "0"
+            userDecimal -= 1
         }
     }
 }
