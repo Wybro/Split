@@ -185,8 +185,5 @@ extension HeaderView {
             userDecimals[userDecimal - 1] = "0"
             userDecimal -= 1
         }
-        if userDecimal == 0 {
-            decimalMode = false
-        }
     }
 }
