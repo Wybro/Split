@@ -24,7 +24,7 @@ class HeaderView: UIView {
         }
     }
     
-    var userDecimals: [String] = ["0", "0"] {
+    var userDecimals: [String] = [] {
         didSet {
             decimal.text = userDecimals.reduce("",+)
             shake()
@@ -93,7 +93,7 @@ class HeaderView: UIView {
     
     lazy var decimal: UILabel = {
         let label = UILabel()
-        label.text = "00"
+        label.text = ""
         label.textAlignment = .left
         label.font = UIFont(name: "Barlow-Bold", size: Metrics.dTextSize)
         label.textColor = Constants.white
