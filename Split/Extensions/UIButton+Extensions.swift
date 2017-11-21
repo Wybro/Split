@@ -11,7 +11,7 @@ import UIKit
 extension UIButton {
     func bouncyTouch() {
         self.addTarget(self, action: #selector(shrink), for: .touchDown)
-        self.addTarget(self, action: #selector(grow), for: [.touchUpOutside, .touchUpInside])
+        self.addTarget(self, action: #selector(grow), for: [.touchDragOutside, .touchUpInside])
     }
     
     @objc private func shrink() {

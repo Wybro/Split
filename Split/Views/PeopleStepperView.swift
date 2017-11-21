@@ -16,6 +16,22 @@ protocol PeopleStepperDelegate: class {
 
 class PeopleStepperView: UIView {
     
+    enum Metrics {
+        static var countSize: CGFloat {
+            return smallScreen ? 40 : 60
+        }
+        static var paddleWidth: CGFloat {
+            return smallScreen ? 30 : 50
+        }
+        static var paddleHeight: CGFloat {
+            return smallScreen ? 40 : 60
+        }
+        
+        static var fontSize: CGFloat {
+            return smallScreen ? 30 : 40
+        }
+    }
+    
     var countEngaged: Bool = false
     
     private var backingCount: Int = 1
@@ -43,7 +59,7 @@ class PeopleStepperView: UIView {
         button.contentHorizontalAlignment = .center
         button.contentVerticalAlignment = .center
         button.setTitle("+", for: .normal)
-        button.titleLabel?.font = UIFont(name: "Barlow-Bold", size: 30)
+        button.titleLabel?.font = UIFont(name: "Barlow-Bold", size: Metrics.fontSize)
         button.setTitleColor(Constants.green, for: .normal)
         button.cardify()
         button.isHidden = true
@@ -56,7 +72,7 @@ class PeopleStepperView: UIView {
         button.addTarget(self, action: #selector(PeopleStepperView.didTouchUp(sender:)), for: [.touchUpInside,.touchDragOutside])
         button.addTarget(self, action: #selector(PeopleStepperView.didTap(sender:)), for: .touchUpInside)
         button.setTitle("-", for: .normal)
-        button.titleLabel?.font = UIFont(name: "Barlow-Bold", size: 30)
+        button.titleLabel?.font = UIFont(name: "Barlow-Bold", size: Metrics.fontSize)
         button.setTitleColor(Constants.green, for: .normal)
         button.contentHorizontalAlignment = .center
         button.contentVerticalAlignment = .center
@@ -70,7 +86,7 @@ class PeopleStepperView: UIView {
         button.addTarget(self, action: #selector(PeopleStepperView.didTouchCountLabel(sender:)), for: .touchUpInside)
         button.addTarget(self, action: #selector(PeopleStepperView.didTouchDown(sender:)), for: .touchDown)
         button.addTarget(self, action: #selector(PeopleStepperView.didTouchUp(sender:)), for: [.touchUpInside,.touchDragOutside])
-        button.titleLabel?.font = UIFont(name: "Barlow-Bold", size: 30)
+        button.titleLabel?.font = UIFont(name: "Barlow-Bold", size: Metrics.fontSize)
         button.setTitleColor(Constants.green, for: .normal)
         button.setTitle("\(count)", for: .normal)
         button.contentHorizontalAlignment = .center
@@ -104,11 +120,14 @@ class PeopleStepperView: UIView {
         addSubview(extraLabel.usingConstraints())
         
         NSLayoutConstraint.constraints(
-            formats: ["H:|[minus(40)]-[count(35)]-[plus(minus)]|",
+            formats: ["H:|[minus(pWidth)]-[count(countSize)]-[plus(pWidth)]|",
                       "H:|[extra]|",
-                      "V:|[count(40)][extra]|",
-                      "V:|[minus(40)][extra]|",
-                      "V:|[plus(40)][extra]|"],
+                      "V:|[count(countSize)]-2-[extra]|",
+                      "V:|[minus(pHeight)]-2-[extra]|",
+                      "V:|[plus(pHeight)]-2-[extra]|"],
+            metrics: ["countSize": Metrics.countSize,
+                      "pHeight": Metrics.paddleHeight,
+                      "pWidth": Metrics.paddleWidth],
             views: ["plus": plus,
                     "minus": minus,
                     "count": countLabelButton,

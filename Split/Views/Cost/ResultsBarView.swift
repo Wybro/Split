@@ -10,11 +10,14 @@ import UIKit
 
 class ResultsBarView: UIView {
     
-    private enum ViewTypes {
-        case full, partial
+    enum Metrics {
+        static var resultHeight: CGFloat {
+            return smallScreen ? 75 : 85
+        }
+        
+        static var tipViewHeight: CGFloat = Metrics.resultHeight * 0.5
     }
     
-    private var viewType = ViewTypes.full
     private var animating = false
     
     lazy var tip: CostView = .init(type: .tip)
@@ -45,8 +48,10 @@ class ResultsBarView: UIView {
             formats: ["H:|-10-[total]-10-|",
                       "H:|-10-[tip]-[bill(tip)]-10-|",
                       "H:|-10-[tipView]-10-|",
-                      "V:|[total]-[tip(total)]-[tipView(total)]-|",
+                      "V:|[total(rHeight)]-[tip(total)]-[tipView(tHeight)]-|",
                       "V:[total]-[bill(total)]"],
+            metrics: ["rHeight": Metrics.resultHeight,
+                      "tHeight": Metrics.tipViewHeight],
             views: ["tip": tip,
                     "total": total,
                     "bill": bill,

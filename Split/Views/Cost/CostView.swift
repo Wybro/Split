@@ -14,6 +14,15 @@ protocol CostViewDelegate: class {
 
 class CostView: UIView {
     
+    enum Metrics {
+        static var titleFontSize: CGFloat {
+            return smallScreen ? 16 : 18
+        }
+        static var amountFontSize: CGFloat {
+            return smallScreen ? 18 : 20
+        }
+    }
+    
     enum CostType {
         case tip, total, bill
     }
@@ -24,18 +33,22 @@ class CostView: UIView {
     lazy var titleLabel: UILabel = {
         let label = UILabel()
         label.text = "Title"
-        label.font = UIFont(name: "Barlow-Light", size: 16)
+        label.font = UIFont(name: "Barlow-Light", size: Metrics.titleFontSize)
         label.textAlignment = .center
         label.textColor = Constants.gray
+//        label.adjustsFontSizeToFitWidth = true
+//        label.minimumScaleFactor = 0.9
         return label
     }()
     
     lazy var amountLabel: UILabel = {
         let label = UILabel()
         label.text = "$0.00"
-        label.font = UIFont(name: "Barlow-Medium", size: 20)
+        label.font = UIFont(name: "Barlow-Medium", size: Metrics.amountFontSize)
         label.textAlignment = .center
         label.textColor = Constants.gray
+//        label.adjustsFontSizeToFitWidth = true
+//        label.minimumScaleFactor = 0.9
         return label
     }()
     
@@ -65,11 +78,16 @@ class CostView: UIView {
         titleLabel.text = label
         titleLabel.textColor = Constants.gray
         
-        let titleSize: CGFloat = type == .total ? 20 : 16
-        titleLabel.font = UIFont(name: "Barlow", size: titleSize)
+        if type == .total {
+            titleLabel.font = UIFont(name: "Barlow-Light", size: Metrics.titleFontSize + 2)
+            amountLabel.font = UIFont(name: "Barlow-Medium", size: Metrics.amountFontSize + 2)
+        }
         
-        let amountSize: CGFloat = type == .total ? 24 : 20
-        amountLabel.font = UIFont(name: "Barlow", size: amountSize)
+//        let titleSize: CGFloat = type == .total ? 20 : 16
+//        titleLabel.font = UIFont(name: "Barlow", size: titleSize)
+//
+//        let amountSize: CGFloat = type == .total ? 24 : 20
+//        amountLabel.font = UIFont(name: "Barlow", size: amountSize)
         
         cardify()
         
@@ -78,7 +96,7 @@ class CostView: UIView {
         addSubview(imageView.usingConstraints())
         
         NSLayoutConstraint.constraints(
-            formats: ["V:|-[title(>=25)]-[amount(>=30)]-|",
+            formats: ["V:|-[title]-[amount(title)]-|",
                       "H:|[title]|",
                       "H:|[amount]|",
                       "H:[image(20)]-3-|",
