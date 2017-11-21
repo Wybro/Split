@@ -43,6 +43,7 @@ class HeaderView: UIView {
             animate {
                 self.decimal.alpha = self.decimalMode ? 0.6 : 0
             }
+            userDecimals = decimalMode ? ["0","0"] : []
         }
     }
     
