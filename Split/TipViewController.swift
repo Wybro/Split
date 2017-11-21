@@ -14,7 +14,7 @@ class TipViewController: UIViewController {
 
     enum Metrics {
         static var topPadding: CGFloat {
-            return currentDevice == .iPhoneX ? 40 : 30
+            return currentDevice == .iPhoneX ? 50 : 30
         }
         
         static var bottomPadding: CGFloat {
