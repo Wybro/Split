@@ -17,6 +17,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         
+        UIApplication.shared.statusBarStyle = .lightContent
+        
         window = UIWindow.init(frame: UIScreen.main.bounds)
         let tipVC = TipViewController()
 //        let navContoller = UINavigationController(rootViewController: tipVC)

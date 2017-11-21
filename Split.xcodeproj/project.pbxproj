@@ -18,6 +18,7 @@
 		2517F40C1FB6A4AB00A736DE /* Barlow-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 2517F3F91FB6A4AB00A736DE /* Barlow-SemiBold.ttf */; };
 		2517F40D1FB6A4AB00A736DE /* Barlow-Black.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 2517F3FA1FB6A4AB00A736DE /* Barlow-Black.ttf */; };
 		2517F40F1FB6B37700A736DE /* DefaultsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2517F40E1FB6B37700A736DE /* DefaultsService.swift */; };
+		25B6815B1FC4CF7A00DD39AC /* UIButton+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25B6815A1FC4CF7A00DD39AC /* UIButton+Extensions.swift */; };
 		25FBA0871FC0D89C00465CF0 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25FBA0861FC0D89C00465CF0 /* Constants.swift */; };
 		25FBA0891FC0F84A00465CF0 /* PeopleStepperView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25FBA0881FC0F84A00465CF0 /* PeopleStepperView.swift */; };
 		2D0984F01FC1FDBE00271EAA /* HeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D0984EF1FC1FDBE00271EAA /* HeaderView.swift */; };
@@ -61,6 +62,7 @@
 		2517F3F91FB6A4AB00A736DE /* Barlow-SemiBold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Barlow-SemiBold.ttf"; sourceTree = "<group>"; };
 		2517F3FA1FB6A4AB00A736DE /* Barlow-Black.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Barlow-Black.ttf"; sourceTree = "<group>"; };
 		2517F40E1FB6B37700A736DE /* DefaultsService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultsService.swift; sourceTree = "<group>"; };
+		25B6815A1FC4CF7A00DD39AC /* UIButton+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIButton+Extensions.swift"; sourceTree = "<group>"; };
 		25FBA0861FC0D89C00465CF0 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		25FBA0881FC0F84A00465CF0 /* PeopleStepperView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PeopleStepperView.swift; sourceTree = "<group>"; };
 		2D0984EF1FC1FDBE00271EAA /* HeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeaderView.swift; sourceTree = "<group>"; };
@@ -128,6 +130,15 @@
 			path = Split/Assets/Fonts;
 			sourceTree = SOURCE_ROOT;
 		};
+		25B681591FC4CF5D00DD39AC /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				2D3C29D41FC287C900BC37E2 /* UIView+Extensions.swift */,
+				25B6815A1FC4CF7A00DD39AC /* UIButton+Extensions.swift */,
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
 		2D3189331FB4EE4800801D73 = {
 			isa = PBXGroup;
 			children = (
@@ -154,8 +165,8 @@
 				2D31893F1FB4EE4800801D73 /* AppDelegate.swift */,
 				2D3189601FB4F19D00801D73 /* TipViewController.swift */,
 				25FBA0861FC0D89C00465CF0 /* Constants.swift */,
-				2D3C29D41FC287C900BC37E2 /* UIView+Extensions.swift */,
 				2517F40E1FB6B37700A736DE /* DefaultsService.swift */,
+				25B681591FC4CF5D00DD39AC /* Extensions */,
 				2D31896C1FB54C4200801D73 /* Views */,
 				2D3C29D31FC287A400BC37E2 /* Assets */,
 				2D3189481FB4EE4800801D73 /* LaunchScreen.storyboard */,
@@ -494,6 +505,7 @@
 				2D3189651FB508C700801D73 /* CostView.swift in Sources */,
 				2D3189671FB5157500801D73 /* TipButton.swift in Sources */,
 				2D39251D1FB6B10600E01D2D /* RowView.swift in Sources */,
+				25B6815B1FC4CF7A00DD39AC /* UIButton+Extensions.swift in Sources */,
 				2D0984F01FC1FDBE00271EAA /* HeaderView.swift in Sources */,
 				2D39251B1FB6B07400E01D2D /* KeypadView.swift in Sources */,
 				2D3189401FB4EE4800801D73 /* AppDelegate.swift in Sources */,

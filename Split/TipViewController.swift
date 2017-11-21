@@ -25,51 +25,41 @@ class TipViewController: UIViewController {
     }
 
     lazy var resultsBar: ResultsBarView = .init()
-
     lazy var peopleStepper: PeopleStepperView = .init()
-
     lazy var keypad: KeypadView = .init()
-
     lazy var entryView: EntryView = .init()
-
-    var backingNumPeople: Int = 1
-    var backingCostValue: Double = 0.00
-    var backingTipValue: Double = 0.20
-
-    var numPeople: Int {
-        get {
-            return backingNumPeople
-        } set {
-            backingNumPeople = newValue
+    lazy var reviewButton: UIButton = {
+        let button = UIButton()
+        button.addTarget(self, action: #selector(TipViewController.requestReview), for: .touchUpInside)
+        button.setBackgroundImage(#imageLiteral(resourceName: "heart"), for: .normal)
+        button.layer.shadowColor = UIColor.black.cgColor
+        button.layer.shadowOpacity = 0.3
+        button.layer.shadowRadius = 3
+        button.layer.shadowOffset = CGSize(width: 0, height: 1)
+        button.bouncyTouch()
+        return button
+    }()
+    
+    var numPeople: Int = 1 {
+        didSet {
             computeBill()
         }
     }
-
-    var costValue: Double {
-        get {
-            return backingCostValue
-        } set {
-            backingCostValue = newValue
+    
+    var costValue: Double = 0.00 {
+        didSet {
             computeBill()
         }
     }
-
-    var tipValue: Double {
-        get {
-            return backingTipValue
-        } set {
-            backingTipValue = newValue
+    
+    var tipValue: Double = 0.20 {
+        didSet {
             computeBill()
         }
     }
 
     func setup() {
         view.backgroundColor = Constants.green
-
-        let reviewButton = UIBarButtonItem(image: #imageLiteral(resourceName: "heart"), style: .plain, target: self, action: #selector(TipViewController.requestReview))
-        reviewButton.tintColor = Constants.green
-        navigationItem.leftBarButtonItem = reviewButton
-        navigationController?.navigationBar.barTintColor = Constants.gray
 
         entryView.delegate = self
         peopleStepper.delegate = self
@@ -78,6 +68,7 @@ class TipViewController: UIViewController {
         view.addSubview(resultsBar.usingConstraints())
         view.addSubview(peopleStepper.usingConstraints())
         view.addSubview(entryView.usingConstraints())
+        view.addSubview(reviewButton.usingConstraints())
         
         view.bringSubview(toFront: resultsBar)
 
@@ -88,8 +79,9 @@ class TipViewController: UIViewController {
 
     func layoutConstraints() -> [NSLayoutConstraint] {
         return NSLayoutConstraint.constraints(
-            formats: ["V:|-top-[results]",
+            formats: ["V:|-top-[review]-[results]",
                       "V:[stepper]-15-[entry(entryHeight)]-bottom-|",
+                      "H:[review]-|",
                       "H:|[results]|",
                       "H:|[entry]|"],
             metrics: ["top": Metrics.topPadding,
@@ -97,7 +89,8 @@ class TipViewController: UIViewController {
                       "entryHeight": Metrics.entryHeight],
             views: ["results": resultsBar,
                     "stepper": peopleStepper,
-                    "entry": entryView]
+                    "entry": entryView,
+                    "review": reviewButton]
         )
     }
 }
