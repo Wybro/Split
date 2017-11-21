@@ -19,10 +19,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         window = UIWindow.init(frame: UIScreen.main.bounds)
         let tipVC = TipViewController()
-        let navContoller = UINavigationController(rootViewController: tipVC)
-        navContoller.navigationBar.isTranslucent = false
+//        let navContoller = UINavigationController(rootViewController: tipVC)
+//        navContoller.navigationBar.isTranslucent = false
         
-        window?.rootViewController = navContoller
+        window?.rootViewController = tipVC
         window?.makeKeyAndVisible()
         
         Fabric.with([Crashlytics.self])

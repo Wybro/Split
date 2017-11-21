@@ -18,3 +18,17 @@ enum Constants {
 var smallScreen: Bool {
     return UIScreen.main.bounds.height <= 667
 }
+
+enum Device {
+    case iPhone5, iPhone8, iPhone8Plus, iPhoneX, unknown
+}
+
+var currentDevice: Device {
+    switch UIScreen.main.bounds.height {
+    case 568: return .iPhone5
+    case 667: return .iPhone8
+    case 736: return .iPhone8Plus
+    case 812: return .iPhoneX
+    default: return .unknown
+    }
+}

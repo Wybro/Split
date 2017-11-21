@@ -13,6 +13,10 @@ import StoreKit
 class TipViewController: UIViewController {
 
     enum Metrics {
+        static var topPadding: CGFloat {
+            return currentDevice == .iPhoneX ? 40 : 30
+        }
+        
         static var bottomPadding: CGFloat {
             return smallScreen ? UIScreen.main.bounds.height * 0.03 : UIScreen.main.bounds.height * 0.05
         }
@@ -84,11 +88,12 @@ class TipViewController: UIViewController {
 
     func layoutConstraints() -> [NSLayoutConstraint] {
         return NSLayoutConstraint.constraints(
-            formats: ["V:|-8-[results]",
+            formats: ["V:|-top-[results]",
                       "V:[stepper]-15-[entry(entryHeight)]-bottom-|",
                       "H:|[results]|",
                       "H:|[entry]|"],
-            metrics: ["bottom": Metrics.bottomPadding,
+            metrics: ["top": Metrics.topPadding,
+                      "bottom": Metrics.bottomPadding,
                       "entryHeight": Metrics.entryHeight],
             views: ["results": resultsBar,
                     "stepper": peopleStepper,
