@@ -41,21 +41,15 @@ class TipViewController: UIViewController {
     }()
     
     var numPeople: Int = 1 {
-        didSet {
-            computeBill()
-        }
+        didSet { computeBill() }
     }
     
     var costValue: Double = 0.00 {
-        didSet {
-            computeBill()
-        }
+        didSet { computeBill() }
     }
     
     var tipValue: Double = 0.20 {
-        didSet {
-            computeBill()
-        }
+        didSet { computeBill() }
     }
 
     func setup() {
@@ -79,7 +73,7 @@ class TipViewController: UIViewController {
 
     func layoutConstraints() -> [NSLayoutConstraint] {
         return NSLayoutConstraint.constraints(
-            formats: ["V:|-top-[review]-[results]",
+            formats: ["V:|-top-[review]-8-[results]",
                       "V:[stepper]-15-[entry(entryHeight)]-bottom-|",
                       "H:[review]-|",
                       "H:|[results]|",
