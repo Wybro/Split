@@ -29,6 +29,13 @@ class CostView: UIView {
     
     var type: CostType?
     weak var delegate: CostViewDelegate?
+    
+    var showEach: Bool = false {
+        didSet {
+            eachLabel.text = showEach ? "each" : ""
+            eachLabel.isHidden = !showEach
+        }
+    }
 
     lazy var titleLabel: UILabel = {
         let label = UILabel()
@@ -36,8 +43,6 @@ class CostView: UIView {
         label.font = UIFont(name: "Barlow-Light", size: Metrics.titleFontSize)
         label.textAlignment = .center
         label.textColor = Constants.gray
-//        label.adjustsFontSizeToFitWidth = true
-//        label.minimumScaleFactor = 0.9
         return label
     }()
     
@@ -47,8 +52,6 @@ class CostView: UIView {
         label.font = UIFont(name: "Barlow-Medium", size: Metrics.amountFontSize)
         label.textAlignment = .center
         label.textColor = Constants.gray
-//        label.adjustsFontSizeToFitWidth = true
-//        label.minimumScaleFactor = 0.9
         return label
     }()
     
@@ -57,6 +60,16 @@ class CostView: UIView {
         imageView.image = #imageLiteral(resourceName: "info")
         imageView.isHidden = true
         return imageView
+    }()
+    
+    lazy var eachLabel: UILabel = {
+        let label = UILabel()
+        label.font = UIFont(name: "Barlow-light", size: 16)
+        label.textColor = Constants.gray
+        label.text = ""
+        label.textAlignment = .left
+        label.isHidden = true
+        return label
     }()
     
     init(type: CostType) {
@@ -83,27 +96,26 @@ class CostView: UIView {
             amountLabel.font = UIFont(name: "Barlow-Medium", size: Metrics.amountFontSize + 2)
         }
         
-//        let titleSize: CGFloat = type == .total ? 20 : 16
-//        titleLabel.font = UIFont(name: "Barlow", size: titleSize)
-//
-//        let amountSize: CGFloat = type == .total ? 24 : 20
-//        amountLabel.font = UIFont(name: "Barlow", size: amountSize)
-        
         cardify()
         
         addSubview(titleLabel.usingConstraints())
         addSubview(amountLabel.usingConstraints())
         addSubview(imageView.usingConstraints())
+        addSubview(eachLabel.usingConstraints())
+        
+        amountLabel.center(in: self, type: .horizontal).activate()
         
         NSLayoutConstraint.constraints(
             formats: ["V:|-[title]-[amount(title)]-|",
                       "H:|[title]|",
-                      "H:|[amount]|",
+                      "H:[amount]-[each]",
                       "H:[image(20)]-3-|",
-                      "V:|-3-[image(20)]"],
+                      "V:|-3-[image(20)]",
+                      "V:[each(title)]-|"],
             views: ["title": titleLabel,
                     "amount": amountLabel,
-                    "image": imageView]
+                    "image": imageView,
+                    "each": eachLabel]
         ).activate()
     }
     

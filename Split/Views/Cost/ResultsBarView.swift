@@ -12,7 +12,8 @@ class ResultsBarView: UIView {
     
     enum Metrics {
         static var resultHeight: CGFloat {
-            return smallScreen ? 75 : 85
+            return currentDevice == .iPhone5 ? 60 : (smallScreen ? 75 : 85)
+//            return smallScreen ? 75 : 85
         }
         
         static var tipViewHeight: CGFloat = Metrics.resultHeight * 0.5
@@ -67,6 +68,8 @@ class ResultsBarView: UIView {
         tip.update(cost: tipVal)
         bill.update(cost: billVal)
         total.update(cost: totalVal)
+        
+        total.showEach = numPeople > 1
     }
 }
 
