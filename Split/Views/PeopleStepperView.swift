@@ -24,7 +24,6 @@ class PeopleStepperView: UIView {
             return backingCount
         } set {
             backingCount = newValue
-//            countLabelButton.set = "\(newValue)"
             countLabelButton.setTitle("\(newValue)", for: .normal)
 
             
@@ -64,16 +63,6 @@ class PeopleStepperView: UIView {
         button.isHidden = true
         return button
     }()
-    
-//    lazy var countLabel: UILabel = {
-//        let label = UILabel()
-//        label.font = UIFont(name: "Barlow-Bold", size: 24)
-//        label.textColor = Constants.white
-//        label.text = "\(count)"
-//        label.textAlignment = .center
-//        label.cardify()
-//        return label
-//    }()
     
     lazy var countLabelButton: UIButton = {
         let button = UIButton()
