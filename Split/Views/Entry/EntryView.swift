@@ -54,46 +54,6 @@ class EntryView: UIView {
 
 extension EntryView: KeypadDelegate {
     
-//    func keypadPressed(tap: Tap) {
-//        delegate?.didStartTyping()
-//
-//        switch tap.action {
-//        case .append:
-//            if header.decimalMode {
-//                header.userDecimals[header.userDecimal] = tap.data
-//                header.userDecimal += 1
-//            } else {
-//                header.append(tap.data, type: .primary)
-//            }
-//            delegate?.costDidChange(value: header.doubleValue)
-//        case .delete:
-//            if header.decimalMode {
-//                if header.userDecimals == ["0","0"] && header.userDecimal == 0 {
-//                    header.decimalMode = false
-//                } else if  header.userDecimal - 1 < header.userDecimals.count {
-//                    header.userDecimals[header.userDecimal - 1] = "0"
-//                    header.userDecimal -= 1
-//                }
-////                if header.userDecimal == 0 {
-////                    header.decimalMode = false
-////                }
-//            } else {
-//                header.dropLast()
-//            }
-//            delegate?.costDidChange(value: header.doubleValue)
-//        case .decimal:
-//            header.decimalMode = true
-//        }
-//
-//        if header.full {
-//            keypad.enabled(.max)
-//        } else if header.empty {
-//            keypad.enabled(.initial)
-//        } else {
-//            header.decimalMode ? keypad.enabled(.decimal) : keypad.enabled(.nondecimal)
-//        }
-//    }
-    
     func keypadPressed(tap: Tap) {
         delegate?.didStartTyping()
         

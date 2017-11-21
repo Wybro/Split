@@ -40,7 +40,9 @@ class HeaderView: UIView {
     
     var decimalMode: Bool = false {
         didSet {
-            decimal.alpha = decimalMode ? 0.6 : 0
+            animate {
+                self.decimal.alpha = self.decimalMode ? 0.6 : 0
+            }
         }
     }
     
