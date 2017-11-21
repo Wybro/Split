@@ -65,7 +65,7 @@ class KeypadView: UIView {
     }
     
     enum States {
-        case decimal, nondecimal, max, initial
+        case decimal, nondecimal, max, initial, emptydecimal
     }
     
     func enabled(_ state: States) {
@@ -81,6 +81,9 @@ class KeypadView: UIView {
         case .initial:
             [firstRow, secondRow, thirdRow].forEach { $0.enabled() }
             fourthRow.enabled(m: false, r: false)
+        case .emptydecimal:
+            [firstRow, secondRow, thirdRow].forEach { $0.enabled() }
+            fourthRow.enabled(l: false)
         }
     }
 }
